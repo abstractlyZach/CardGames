@@ -26,4 +26,23 @@ def test_get_smaller_ranks_all_ranks():
         for lower_index in range(index):
             assert ORDERED_RANKS[lower_index] in smaller_ranks
 
+def test_get_larger_ranks_single_rank():
+    rank = '2'
+    larger_ranks = ranks.get_larger_ranks(rank)
+    assert len(larger_ranks) == 12
+
+def test_get_larger_ranks_highest_rank_returns_empty_collection():
+    rank = 'Ace'
+    larger_ranks = ranks.get_larger_ranks(rank)
+    assert len(larger_ranks) == 0
+
+def test_get_larger_ranks_all_ranks():
+    for index, rank in enumerate(ORDERED_RANKS):
+        larger_ranks = ranks.get_larger_ranks(rank)
+        for higher_index in range(index + 1, len(ORDERED_RANKS)):
+            assert ORDERED_RANKS[higher_index] in larger_ranks
+
+
+
+
 

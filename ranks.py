@@ -8,5 +8,10 @@ def get_smaller_ranks(rank):
     rank_index = ORDERED_RANKS.index(rank)
     return set(ORDERED_RANKS[:rank_index])
 
+def get_larger_ranks(rank):
+    '''Gets the ranks that are larger than the given rank'''
+    rank_index = ORDERED_RANKS.index(rank)
+    return set(ORDERED_RANKS[rank_index + 1:])
+
 
 
