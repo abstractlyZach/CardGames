@@ -20,10 +20,6 @@ class StandardPlayingCard(Card):
         self._text = '{} of {}s'.format(self._rank, self._suit)
         self._flavor_text = ''
 
-    # def __gt__(self, right):
-    #     if self._rank > right._rank:
-    #         return True
-
     def _check_legal_card(self):
         self._check_legal_suit()
         self._check_legal_rank()
@@ -35,6 +31,23 @@ class StandardPlayingCard(Card):
     def _check_legal_rank(self):
         if self._rank not in ranks.get_all_ranks():
             raise IllegalRankException
+
+    def __eq__(self, right):
+        return self._rank == right._rank
+
+    def __gt__(self, right):
+        lesser_ranks = ranks.get_smaller_ranks(self._rank)
+        if right._rank in lesser_ranks:
+            return True
+
+    def __ge__(self, right):
+        return self > right or self == right
+
+    def __lt__(self, right):
+        return not (self >= right)
+
+    def __le__(self, right):
+        return not (self > right)
 
     @property
     def rank(self):
