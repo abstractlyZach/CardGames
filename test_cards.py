@@ -37,30 +37,32 @@ class TestCards(object):
         seven_2 = cards.StandardPlayingCard(7, 'Clover')
         assert seven == seven_2
 
-    def test_ace_beats_2(self):
-        ace = cards.StandardPlayingCard('Ace', 'Spade')
-        two = cards.StandardPlayingCard('2', 'spade')
-        assert ace > two
-        assert ace >= two
-        assert two < ace
-        assert two <= ace
 
-    def test_all_ranks_beat_smaller_ranks(self):
-        for rank in ranks.get_all_ranks():
-            lesser_ranks = ranks.get_smaller_ranks(rank)
-            big_card = cards.StandardPlayingCard(rank, 'spades')
-            for lesser_rank in lesser_ranks:
-                small_card = cards.StandardPlayingCard(lesser_rank, 'spades')
-                assert big_card > small_card
-
-    def test_same_rank_different_suit_are_equal(self):
-        for rank in ranks.get_all_ranks():
-            for suit in suits.get_all_suits():
-                base_card = cards.StandardPlayingCard(rank, suit)
-                other_suits = suits.get_all_suits() - set(suit)
-                for different_suit in other_suits:
-                    different_suited_card = cards.StandardPlayingCard(rank, different_suit)
-                    assert base_card == different_suited_card
+# removed because these are game logic tests, not card object tests
+    # def test_ace_beats_2(self):
+    #     ace = cards.StandardPlayingCard('Ace', 'Spade')
+    #     two = cards.StandardPlayingCard('2', 'spade')
+    #     assert ace > two
+    #     assert ace >= two
+    #     assert two < ace
+    #     assert two <= ace
+    #
+    # def test_all_ranks_beat_smaller_ranks(self):
+    #     for rank in ranks.get_all_ranks():
+    #         lesser_ranks = ranks.get_smaller_ranks(rank)
+    #         big_card = cards.StandardPlayingCard(rank, 'spades')
+    #         for lesser_rank in lesser_ranks:
+    #             small_card = cards.StandardPlayingCard(lesser_rank, 'spades')
+    #             assert big_card > small_card
+    #
+    # def test_same_rank_different_suit_are_equal(self):
+    #     for rank in ranks.get_all_ranks():
+    #         for suit in suits.get_all_suits():
+    #             base_card = cards.StandardPlayingCard(rank, suit)
+    #             other_suits = suits.get_all_suits() - set(suit)
+    #             for different_suit in other_suits:
+    #                 different_suited_card = cards.StandardPlayingCard(rank, different_suit)
+    #                 assert base_card == different_suited_card
 
 
 

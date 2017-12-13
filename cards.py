@@ -37,22 +37,10 @@ class StandardPlayingCard(Card):
         if self._rank not in ranks.get_all_ranks():
             raise IllegalRankException
 
+    # comparison operations are limited to equality. external code for game logic should be used if you're
+    # comparing values. the only comparison ability cards themselves should have is knowing if they're the same card
     def __eq__(self, right):
-        return self._rank == right._rank
-
-    def __gt__(self, right):
-        lesser_ranks = ranks.get_smaller_ranks(self._rank)
-        if right._rank in lesser_ranks:
-            return True
-
-    def __ge__(self, right):
-        return self > right or self == right
-
-    def __lt__(self, right):
-        return not (self >= right)
-
-    def __le__(self, right):
-        return not (self > right)
+        return self._rank == right._rank and self._suit == self._suit
 
     @property
     def rank(self):
