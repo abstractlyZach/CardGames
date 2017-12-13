@@ -25,7 +25,19 @@ def test_top_insert_once_into_empty_deck_increases_num_cards(empty_deck):
     deck.insert_to_top(card)
     assert deck.num_cards == 1
 
-# def test_top_insert_and_draw_yields_same_card(empty_deck):
-#     deck = empty_deck
-#     card = cards.Card()
+def test_top_insert_and_draw_yields_same_card(empty_deck):
+    deck = empty_deck
+    inserted_card = cards.Card()
+    deck.insert_to_top(inserted_card)
+    drawn_card = deck.draw()
+    assert inserted_card is drawn_card
+
+def test_top_insert_two_and_draw_yields_second_inserted_card(empty_deck):
+    deck = empty_deck
+    ace = cards.StandardPlayingCard('ace', 'spades')
+    seven = cards.StandardPlayingCard(7, 'clovers')
+    deck.insert_to_top(ace)
+    deck.insert_to_top(seven)
+    drawn_card = deck.draw()
+    assert seven is drawn_card
 

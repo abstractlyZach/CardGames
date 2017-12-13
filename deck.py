@@ -9,7 +9,7 @@ class Deck(object):
         if self.num_cards <= 0:
             raise NoCardsLeftException
         else:
-            pass
+            return self._cards.pop()
 
     def insert_to_top(self, card):
         self._cards.append(card)
