@@ -14,6 +14,9 @@ class Deck(object):
     def insert_to_top(self, card):
         self._cards.append(card)
 
+    def insert_to_bottom(self, card):
+        self._cards.insert(0, card)
+
     @property
     def num_cards(self):
         return len(self._cards)

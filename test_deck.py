@@ -7,6 +7,11 @@ from deck import Deck, NoCardsLeftException
 def empty_deck():
     return Deck()
 
+# @pytest.fixture
+# def stacked_deck():
+#     deck = Deck()
+#     deck.insert_to_top()
+
 def test_init():
     deck = Deck()
 
@@ -40,4 +45,23 @@ def test_top_insert_two_and_draw_yields_second_inserted_card(empty_deck):
     deck.insert_to_top(seven)
     drawn_card = deck.draw()
     assert seven is drawn_card
+
+def test_bottom_insert_and_draw_yields_same_card(empty_deck):
+    deck = empty_deck
+    inserted_card = cards.StandardPlayingCard('Jack', 'diamonds')
+    deck.insert_to_bottom(inserted_card)
+    drawn_card = deck.draw()
+    assert inserted_card == drawn_card
+
+def test_bottom_insert_two_and_draw_yields_first_inserted_card(empty_deck):
+    deck = empty_deck
+    three = cards.StandardPlayingCard('3', 'spades')
+    five = cards.StandardPlayingCard('5', 'clovers')
+    deck.insert_to_bottom(three)
+    deck.insert_to_bottom(five)
+    drawn_card = deck.draw()
+    assert drawn_card == three
+
+# def test_multiple_draws(empty_deck):
+#
 
