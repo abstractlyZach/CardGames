@@ -1,5 +1,4 @@
 import ranks
-SUITS = ['Diamond', 'Clover', 'Heart', 'Spade']
 
 class Card(object):
     @property
