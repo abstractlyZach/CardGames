@@ -4,6 +4,14 @@ class TestCards(object):
     def test_init(self):
         cards.StandardPlayingCard('Ace', 'Spade')
 
+    def test_rank(self):
+        ace = cards.StandardPlayingCard('Ace', 'Spade')
+        assert ace.rank == 'Ace'
+
+    def test_suit(self):
+        ace = cards.StandardPlayingCard('Ace', 'Spade')
+        assert ace.suit == 'Spade'
+
     def test_text(self):
         ace = cards.StandardPlayingCard('Ace', 'Spade')
         assert ace.text == 'Ace of Spades'
