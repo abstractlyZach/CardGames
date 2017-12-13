@@ -4,6 +4,10 @@ import suits
 
 class Card(object):
     @property
+    def name(self):
+        return self._name
+
+    @property
     def text(self):
         return self._text
 
@@ -17,7 +21,8 @@ class StandardPlayingCard(Card):
         self._rank = str(rank).capitalize()
         self._suit = suit.rstrip('s').capitalize() # allows (Ace, Spade) and (Ace, Spades)
         self._check_legal_card()
-        self._text = '{} of {}s'.format(self._rank, self._suit)
+        self._name = '{} of {}s'.format(self._rank, self._suit)
+        self._text = ''
         self._flavor_text = ''
 
     def _check_legal_card(self):
