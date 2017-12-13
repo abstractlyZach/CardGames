@@ -37,6 +37,15 @@ class TestCards(object):
         seven_2 = cards.StandardPlayingCard(7, 'Clover')
         assert seven == seven_2
 
+    def test_different_cards_unequal(self):
+        queen = cards.StandardPlayingCard('queen', 'hearts')
+        other_cards = [cards.StandardPlayingCard(rank, suit)
+                       for rank in ranks.get_all_ranks()
+                       for suit in suits.get_all_suits()]
+        other_cards.remove(queen)
+        for other_card in other_cards:
+            assert queen != other_card
+
 
 # removed because these are game logic tests, not card object tests
     # def test_ace_beats_2(self):
