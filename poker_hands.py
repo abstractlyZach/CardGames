@@ -38,6 +38,13 @@ class FiveCardHand(object):
                '    {}\n' \
                '    {}\n'.format(*self._cards)
 
+    def __iter__(self):
+        for card in self._cards:
+            yield card
+
+
+class StraightFlush(FiveCardHand):
+    _strength = 8
 
 
 

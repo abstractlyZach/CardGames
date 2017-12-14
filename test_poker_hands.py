@@ -52,8 +52,17 @@ class TestFiveCardHand():
         expected_suit_counts = {rank: 1 for rank in ranks_to_expect}
         assert royal_flush_diamonds.rank_counts == expected_suit_counts
 
+    def test_iterator(self, royal_flush_diamonds):
+        ranks_to_expect = reversed([ranks.TEN, ranks.JACK, ranks.QUEEN, ranks.KING, ranks.ACE])
+        cards_to_expect = [cards.StandardPlayingCard(rank, suits.DIAMOND) for rank in ranks_to_expect]
+        for expected_card, actual_card in zip(cards_to_expect, royal_flush_diamonds):
+            assert expected_card == actual_card
 
 
+# def test_straight_flush_beats_four_of_a_kind():
+#     straight_flush = poker_hands.StraightFlush(['' for i in range(5)])
+#     four_of_a_kind = poker_hands.FourOfAKind(['' for i in range(5)])
+#     assert straight_flush > four_of_a_kind
 
 
 def test_classify():
