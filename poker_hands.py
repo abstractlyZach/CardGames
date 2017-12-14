@@ -1,5 +1,15 @@
 from collections import defaultdict
 
+import exceptions
+
+
+class FiveCardHand(object):
+    def __init__(self, cards):
+        if len(cards) < 5:
+            raise exceptions.NotEnoughCardsException
+        elif len(cards) > 5:
+            raise exceptions.TooManyCardsException
+
 
 def classify(hand):
     rank_matches = defaultdict(int)
