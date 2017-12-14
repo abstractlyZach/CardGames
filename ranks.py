@@ -19,18 +19,18 @@ def get_all_ranks():
 def get_smaller_ranks(rank):
     '''Gets the ranks that are smaller than the given rank'''
     rank_index = ORDERED_RANKS.index(rank)
-    return set(ORDERED_RANKS[:rank_index])
+    return ORDERED_RANKS[:rank_index]
 
 def get_larger_ranks(rank):
     '''Gets the ranks that are larger than the given rank'''
     rank_index = ORDERED_RANKS.index(rank)
-    return set(ORDERED_RANKS[rank_index + 1:])
+    return ORDERED_RANKS[rank_index + 1:]
 
 def get_royals():
-    return set(TEN, JACK, QUEEN, KING, ACE)
+    return [TEN, JACK, QUEEN, KING, ACE]
 
 def get_faces():
-    return set(JACK, QUEEN, KING)
+    return [JACK, QUEEN, KING]
 
 
 
