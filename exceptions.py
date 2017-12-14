@@ -7,6 +7,8 @@ class TooManyCardsException(Exception):
 class IllegalSuitException(Exception):
     pass
 
-
 class IllegalRankException(Exception):
+    pass
+
+class NoCardsLeftException(Exception):
     pass

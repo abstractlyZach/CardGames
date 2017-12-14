@@ -1,4 +1,5 @@
 import cards
+import exceptions
 import ranks
 import suits
 
@@ -10,7 +11,7 @@ class Deck(object):
 
     def draw(self):
         if self.num_cards <= 0:
-            raise NoCardsLeftException
+            raise exceptions.NoCardsLeftException
         else:
             return self._cards.pop()
 
@@ -31,7 +32,3 @@ class StandardPlayingCardDeck(Deck):
         for rank in ranks.get_all_ranks():
             for suit in suits.get_all_suits():
                 self._cards.append(cards.StandardPlayingCard(rank, suit))
-
-
-class NoCardsLeftException(Exception):
-    pass
