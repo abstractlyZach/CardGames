@@ -3,3 +3,10 @@ class NotEnoughCardsException(Exception):
 
 class TooManyCardsException(Exception):
     pass
+
+class IllegalSuitException(Exception):
+    pass
+
+
+class IllegalRankException(Exception):
+    pass

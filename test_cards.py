@@ -1,6 +1,7 @@
 import pytest
 
 import cards
+import exceptions
 import ranks
 import suits
 
@@ -9,11 +10,11 @@ class TestCards(object):
         cards.StandardPlayingCard('Ace', 'Spade')
 
     def test_bad_suit_raises_exception(self):
-        with pytest.raises(cards.IllegalSuitException):
+        with pytest.raises(exceptions.IllegalSuitException):
             cards.StandardPlayingCard('ace', 'bunnies')
 
     def test_bad_rank_raises_exception(self):
-        with pytest.raises(cards.IllegalRankException):
+        with pytest.raises(exceptions.IllegalRankException):
             cards.StandardPlayingCard('potato', 'spades')
 
     def test_rank(self):
