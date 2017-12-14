@@ -15,6 +15,9 @@ class Card(object):
     def flavor_text(self):
         return self._flavor_text
 
+    def __repr__(self):
+        return self._name
+
 
 class StandardPlayingCard(Card):
     def __init__(self, rank, suit):
