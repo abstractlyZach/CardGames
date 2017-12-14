@@ -7,8 +7,7 @@ class FiveCardHand(object):
     def __init__(self, cards):
         self._cards = cards
         self._check_hand_size()
-        self._count_suits()
-        self._count_ranks()
+        self._count_suits_and_ranks()
 
     def _check_hand_size(self):
         if len(self._cards) < 5:
@@ -16,14 +15,11 @@ class FiveCardHand(object):
         elif len(self._cards) > 5:
             raise exceptions.TooManyCardsException
 
-    def _count_suits(self):
+    def _count_suits_and_ranks(self):
         self._suit_counts = defaultdict(int)
-        for card in self._cards:
-            self._suit_counts[card.suit] += 1
-
-    def _count_ranks(self):
         self._rank_counts = defaultdict(int)
         for card in self._cards:
+            self._suit_counts[card.suit] += 1
             self._rank_counts[card.rank] += 1
 
     @property
