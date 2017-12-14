@@ -23,6 +23,12 @@ class FiveCardHand(object):
             self._suit_counts[card.suit] += 1
             self._rank_counts[card.rank] += 1
 
+    def has_matches(self):
+        for rank, rank_count in self._rank_counts.items():
+            if rank_count > 1:
+                return True
+        return False
+
     @property
     def suit_counts(self):
         return self._suit_counts
@@ -86,7 +92,6 @@ def next_larger_rank(rank, ordered_rankings):
     rank_index = ordered_rankings.index(rank)
     return ordered_rankings[rank_index + 1]
 
-
 def is_straight_ace_low_high(five_card_hand):
     return is_straight_ace_high(five_card_hand) or is_straight_ace_low(five_card_hand)
 
@@ -111,7 +116,6 @@ def _is_straight_under_ordering(five_card_hand, ordering):
         current_rank = next_rank
     return True
 
-
 def classify(hand, is_straight_function=is_straight_ace_low_high):
     five_card_hand = FiveCardHand(hand)
     hand_is_straight = is_straight_function(five_card_hand)
@@ -122,15 +126,20 @@ def classify(hand, is_straight_function=is_straight_ace_low_high):
         return Straight(five_card_hand)
     elif hand_is_flush and not hand_is_straight:
         return Flush(five_card_hand)
-    first_pass = _classify_first_pass(five_card_hand)
+    elif five_card_hand.has_matches():
+        return _classify_hand_with_matches(five_card_hand)
+    else:
+        return HighCard(five_card_hand)
+
+def _classify_hand_with_matches(five_card_hand):
+    first_pass = _classify_hand_with_matches_first_pass(five_card_hand)
     if first_pass is not None:
         return first_pass
     else:
-        return _classify_second_pass(hand)
+        return _classify_hand_with_matches_second_pass(five_card_hand)
 
 
-
-def _classify_first_pass(five_card_hand):
+def _classify_hand_with_matches_first_pass(five_card_hand):
     for rank, rank_count in five_card_hand.rank_counts.items():
         if rank_count == 4:
             return FourOfAKind(five_card_hand)
@@ -138,29 +147,27 @@ def _classify_first_pass(five_card_hand):
             return _classify_card_with_3_of_same_rank(five_card_hand)
     return None
 
-def is_flush(five_card_hand):
-    for suit, suit_count in five_card_hand.suit_counts.items():
-        if suit_count == 5:
-            return True
-    return False
-
 def _classify_card_with_3_of_same_rank(five_card_hand):
     for rank, rank_count in five_card_hand.rank_counts.items():
         if rank_count == 2:
             return FullHouse(five_card_hand)
     return ThreeOfAKind(five_card_hand)
 
-def _classify_second_pass(five_card_hand):
-    '''Second pass of classifications. hand is guaranteed to not have full house'''
+def _classify_hand_with_matches_second_pass(five_card_hand):
+    '''Second pass of classifications. hand is guaranteed to not have more than two of a kind'''
     num_pairs = 0
     for rank, rank_count in five_card_hand.rank_counts.items():
         if rank_count == 2:
             num_pairs += 1
     if num_pairs == 2:
         return TwoPair(five_card_hand)
-    elif num_pairs == 1:
-        return OnePair(five_card_hand)
     else:
-        return HighCard(five_card_hand)
+        return OnePair(five_card_hand)
+
+def is_flush(five_card_hand):
+    for suit, suit_count in five_card_hand.suit_counts.items():
+        if suit_count == 5:
+            return True
+    return False
 
 
