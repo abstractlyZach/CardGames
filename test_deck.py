@@ -1,7 +1,8 @@
 import pytest
 
 import cards
-from deck import Deck, NoCardsLeftException
+from deck import Deck
+import exceptions
 import ranks
 
 @pytest.fixture
@@ -25,7 +26,7 @@ def test_empty(empty_deck):
 
 def test_raise_exception_when_drawing_from_empty_deck(empty_deck):
     deck = empty_deck
-    with pytest.raises(NoCardsLeftException):
+    with pytest.raises(exceptions.NoCardsLeftException):
         deck.draw()
 
 def test_top_insert_once_into_empty_deck_increases_num_cards(empty_deck):

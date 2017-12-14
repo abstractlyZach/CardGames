@@ -1,3 +1,4 @@
+import exceptions
 import ranks
 import suits
 
@@ -15,6 +16,9 @@ class Card(object):
     def flavor_text(self):
         return self._flavor_text
 
+    def __repr__(self):
+        return self._name
+
 
 class StandardPlayingCard(Card):
     def __init__(self, rank, suit):
@@ -31,16 +35,16 @@ class StandardPlayingCard(Card):
 
     def _check_legal_suit(self):
         if self._suit not in suits.get_all_suits():
-            raise IllegalSuitException
+            raise exceptions.IllegalSuitException
 
     def _check_legal_rank(self):
         if self._rank not in ranks.get_all_ranks():
-            raise IllegalRankException
+            raise exceptions.IllegalRankException
 
     # comparison operations are limited to equality. external code for game logic should be used if you're
     # comparing values. the only comparison ability cards themselves should have is knowing if they're the same card
     def __eq__(self, right):
-        return self._rank == right._rank and self._suit == self._suit
+        return self._rank == right._rank and self._suit == right._suit
 
     @property
     def rank(self):
@@ -49,11 +53,3 @@ class StandardPlayingCard(Card):
     @property
     def suit(self):
         return self._suit
-
-
-class IllegalSuitException(Exception):
-    pass
-
-
-class IllegalRankException(Exception):
-    pass
