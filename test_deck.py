@@ -2,15 +2,19 @@ import pytest
 
 import cards
 from deck import Deck, NoCardsLeftException
+import ranks
 
 @pytest.fixture
 def empty_deck():
     return Deck()
 
-# @pytest.fixture
-# def stacked_deck():
-#     deck = Deck()
-#     deck.insert_to_top()
+@pytest.fixture
+def stacked_deck():
+    deck = Deck()
+    for rank in ranks.get_royals():
+        card = cards.StandardPlayingCard(rank, 'spade')
+        deck.insert_to_top(card)
+    return deck
 
 def test_init():
     deck = Deck()
@@ -61,3 +65,9 @@ def test_bottom_insert_two_and_draw_yields_first_inserted_card(empty_deck):
     deck.insert_to_bottom(five)
     drawn_card = deck.draw()
     assert drawn_card == three
+
+def test_shuffle(stacked_deck, mocker):
+    shuffle = mocker.patch('deck.random.shuffle')
+    stacked_deck.shuffle()
+    shuffle.assert_called_once()
+

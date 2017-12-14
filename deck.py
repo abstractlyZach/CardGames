@@ -1,3 +1,6 @@
+import random
+
+
 class Deck(object):
     '''A collection of cards that can execute common actions, like drawing, inserting, shuffling, and scrying.'''
     def __init__(self):
@@ -14,6 +17,9 @@ class Deck(object):
 
     def insert_to_bottom(self, card):
         self._cards.insert(0, card)
+
+    def shuffle(self):
+        random.shuffle(self._cards)
 
     @property
     def num_cards(self):
