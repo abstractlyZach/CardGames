@@ -9,4 +9,4 @@ def test_classify():
     second_card = cards.StandardPlayingCard(ranks.ACE, suits.SPADE)
     hand.append(first_card)
     hand.append(second_card)
-    assert poker_hands.classify(hand) == poker_hands.Pair('Ace')
+    assert poker_hands.classify(hand) == poker_hands.OnePair('Ace')
