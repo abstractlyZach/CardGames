@@ -1,5 +1,3 @@
-import cards
-
 class Deck(object):
     '''A collection of cards that can execute common actions, like drawing, inserting, shuffling, and scrying.'''
     def __init__(self):

@@ -61,7 +61,3 @@ def test_bottom_insert_two_and_draw_yields_first_inserted_card(empty_deck):
     deck.insert_to_bottom(five)
     drawn_card = deck.draw()
     assert drawn_card == three
-
-# def test_multiple_draws(empty_deck):
-#
-
