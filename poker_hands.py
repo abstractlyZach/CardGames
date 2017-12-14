@@ -5,7 +5,7 @@ import exceptions
 
 class FiveCardHand(object):
     def __init__(self, cards):
-        self._cards = cards
+        self._cards = list(cards)
         self._check_hand_size()
         self._count_suits_and_ranks()
 
@@ -29,6 +29,14 @@ class FiveCardHand(object):
     @property
     def rank_counts(self):
         return self._rank_counts
+
+    def __repr__(self):
+        return 'Hand:\n' \
+               '    {}\n' \
+               '    {}\n' \
+               '    {}\n' \
+               '    {}\n' \
+               '    {}\n'.format(*self._cards)
 
 
 
