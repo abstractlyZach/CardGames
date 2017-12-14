@@ -1,5 +1,10 @@
+import cards
+import ranks
+import suits
+
+
 class Deck(object):
-    '''A collection of cards that can execute common actions, like drawing, inserting, shuffling, and scrying.'''
+    '''A collection of cards that can execute common actions, like drawing, inserting, and shuffling'''
     def __init__(self):
         self._cards = []
 
@@ -18,6 +23,14 @@ class Deck(object):
     @property
     def num_cards(self):
         return len(self._cards)
+
+
+class StandardPlayingCardDeck(Deck):
+    def __init__(self):
+        super().__init__()
+        for rank in ranks.get_all_ranks():
+            for suit in suits.get_all_suits():
+                self._cards.append(cards.StandardPlayingCard(rank, suit))
 
 
 class NoCardsLeftException(Exception):
