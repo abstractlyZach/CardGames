@@ -5,10 +5,10 @@ SPADE = 'Spade'
 SUITS = [DIAMOND, CLOVER, HEART, SPADE]
 
 def get_all_suits():
-    return set(SUITS[:])
+    return SUITS[:]
 
 def get_black_suits():
-    return set(SPADE, CLOVER)
+    return [SPADE, CLOVER]
 
 def get_red_suits():
-    return set(HEART, DIAMOND)
+    return [HEART, DIAMOND]

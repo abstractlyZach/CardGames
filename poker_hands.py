@@ -30,6 +30,10 @@ class FiveCardHand(object):
     def rank_counts(self):
         return self._rank_counts
 
+    @property
+    def strength(self):
+        return self._strength
+
     def __repr__(self):
         return 'Hand:\n' \
                '    {}\n' \
@@ -42,29 +46,45 @@ class FiveCardHand(object):
         for card in self._cards:
             yield card
 
+    def __gt__(self, other):
+        return self.strength > other.strength
+
+    def __lt__(self, other):
+        return self.strength < other.strength
+
 
 class StraightFlush(FiveCardHand):
     _strength = 8
 
+class FourOfAKind(FiveCardHand):
+    _strength = 7
 
+class FullHouse(FiveCardHand):
+    _strength = 6
 
-def classify(hand):
-    rank_matches = defaultdict(int)
-    for card in hand:
-        rank_matches[card.rank] += 1
-    for rank, number_of_matches in rank_matches.items():
-        if number_of_matches == 2:
-            return OnePair(rank)
+class Flush(FiveCardHand):
+    _strength = 5
 
+class Straight(FiveCardHand):
+    _strength = 4
 
-class OnePair(object):
-    def __init__(self, rank_of_pair):
-        self._rank = rank_of_pair
+class ThreeOfAKind(FiveCardHand):
+    _strength = 3
 
-    @property
-    def rank(self):
-        return self._rank
+class TwoPair(FiveCardHand):
+    _strength = 2
 
-    def __eq__(self, other):
-        return isinstance(other, OnePair) and (self._rank == other._rank)
+class OnePair(FiveCardHand):
+    _strength = 1
+
+class HighCard(FiveCardHand):
+    _strength = 0
+
+# def classify(hand):
+#     rank_matches = defaultdict(int)
+#     for card in hand:
+#         rank_matches[card.rank] += 1
+#     for rank, number_of_matches in rank_matches.items():
+#         if number_of_matches == 2:
+#             return OnePair(rank)
 
