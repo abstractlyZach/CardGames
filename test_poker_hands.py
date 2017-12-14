@@ -65,6 +65,18 @@ def high_card():
     hand += [cards.StandardPlayingCard(ranks.TEN, suits.CLOVER)]
     return poker_hands.HighCard(hand)
 
+@pytest.fixture
+def straight_ace_low():
+    hand = [cards.StandardPlayingCard(rank, suits.CLOVER) for rank in [ranks.ACE, ranks.TWO, ranks.THREE, ranks.FOUR]]
+    hand.append(cards.StandardPlayingCard(ranks.FIVE, suits.DIAMOND))
+    return poker_hands.FiveCardHand(hand)
+
+@pytest.fixture
+def straight_ace_high():
+    hand = [cards.StandardPlayingCard(rank, suits.CLOVER) for rank in [ranks.TEN, ranks.JACK, ranks.QUEEN, ranks.KING]]
+    hand.append(cards.StandardPlayingCard(ranks.ACE, suits.DIAMOND))
+    return poker_hands.FiveCardHand(hand)
+
 
 class TestFiveCardHand():
     def test_init(self, royal_flush_diamonds):
@@ -100,6 +112,7 @@ class TestFiveCardHand():
         cards_to_expect = [cards.StandardPlayingCard(rank, suits.DIAMOND) for rank in ranks_to_expect]
         for expected_card, actual_card in zip(cards_to_expect, royal_flush_diamonds):
             assert expected_card == actual_card
+
 
 class TestHandTrumpMechanics(object):
     def test_straight_flush_beats_four_of_a_kind(self, royal_flush_diamonds, four_of_a_kind_9s):
@@ -139,15 +152,58 @@ class TestHandTrumpMechanics(object):
         assert high_card < one_pair
 
 
+class TestClassifyRankMatches(object):
+    def test_classify_four_of_a_kind(self, four_of_a_kind_9s):
+        assert isinstance(poker_hands.classify(four_of_a_kind_9s), poker_hands.FourOfAKind)
+
+    def test_classify_full_house(self, full_house_queens):
+        assert isinstance(poker_hands.classify(full_house_queens), poker_hands.FullHouse)
+
+    def test_classify_three_of_a_kind(self, three_of_a_kind):
+        assert isinstance(poker_hands.classify(three_of_a_kind), poker_hands.ThreeOfAKind)
+
+    def test_classify_two_pair(self, two_pair):
+        assert isinstance(poker_hands.classify(two_pair), poker_hands.TwoPair)
+
+    def test_classify_one_pair(self, one_pair):
+        assert isinstance(poker_hands.classify(one_pair), poker_hands.OnePair)
 
 
-# def test_classify():
-#     hand = []
-#     first_card = cards.StandardPlayingCard(ranks.ACE, suits.CLOVER)
-#     second_card = cards.StandardPlayingCard(ranks.ACE, suits.SPADE)
-#     hand.append(first_card)
-#     hand.append(second_card)
-#     assert poker_hands.classify(hand) == poker_hands.OnePair('Ace')
+class TestClassifyFlushes(object):
+    def test_classify_flush(self, flush_spades):
+        assert isinstance(poker_hands.classify(flush_spades), poker_hands.Flush)
 
-# def test_straight_flush_trumps_four_of_a_kind():
-#     straight_flush = poker_hands.StraightFlush([])
+    def test_classify_straight_flush_is_flush(self, royal_flush_diamonds):
+        assert isinstance(poker_hands.classify(royal_flush_diamonds), poker_hands.Flush)
+
+    def test_classify_straight_flush_is_straight_flush(self, royal_flush_diamonds):
+        assert isinstance(poker_hands.classify(royal_flush_diamonds), poker_hands.StraightFlush)
+
+
+class TestClassifyStraight(object):
+    def test_classify_straight_ace_low(self, straight_ace_low):
+        assert poker_hands.is_straight_ace_low(straight_ace_low)
+
+    def test_classify_straight_ace_low_rejects_ace_high(self, straight_ace_high):
+        assert not poker_hands.is_straight_ace_low(straight_ace_high)
+
+    def test_classify_straight_ace_high(self, straight_ace_high):
+        assert poker_hands.is_straight_ace_high(straight_ace_high)
+
+    def test_classify_straight_ace_high_rejects_ace_low(self, straight_ace_low):
+        assert not poker_hands.is_straight_ace_high(straight_ace_low)
+
+    def test_classify_straight(self, straight):
+        assert isinstance(poker_hands.classify(straight), poker_hands.Straight)
+
+    def test_classify_straight_default_with_ace_low(self, straight_ace_low):
+        assert isinstance(poker_hands.classify(straight_ace_low), poker_hands.Straight)
+
+    def test_classify_straight_default_with_ace_high(self, straight_ace_high):
+        assert isinstance(poker_hands.classify(straight_ace_high), poker_hands.Straight)
+
+
+class TestClassifyHighCard(object):
+    def test_classify_high_card(self, high_card):
+        assert isinstance(poker_hands.classify(high_card), poker_hands.HighCard)
+
