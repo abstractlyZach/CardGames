@@ -2,15 +2,20 @@ import pytest
 
 import cards
 from deck import Deck, NoCardsLeftException
+import ranks
 
 @pytest.fixture
 def empty_deck():
     return Deck()
 
-# @pytest.fixture
-# def stacked_deck():
-#     deck = Deck()
-#     deck.insert_to_top()
+@pytest.fixture
+def stacked_deck():
+    '''Returns a royal flush of spades starting with 10 and going up to Ace'''
+    deck = Deck()
+    for rank in ranks.get_royals():
+        card = cards.StandardPlayingCard(rank, 'spades')
+        deck.insert_to_bottom(card)
+    return deck
 
 def test_init():
     deck = Deck()
@@ -62,6 +67,19 @@ def test_bottom_insert_two_and_draw_yields_first_inserted_card(empty_deck):
     drawn_card = deck.draw()
     assert drawn_card == three
 
-# def test_multiple_draws(empty_deck):
-#
+def test_multiple_draws(stacked_deck):
+    for rank in ranks.get_royals():
+        card_to_match = cards.StandardPlayingCard(rank, 'spades')
+        drawn_card = stacked_deck.draw()
+        assert card_to_match == drawn_card
+
+def test_multicard_draw(stacked_deck):
+    first_two_cards = stacked_deck.draw(2)
+    assert len(first_two_cards) == 2
+    ten, jack = first_two_cards
+    assert ten.rank == ranks.TEN
+    assert jack.rank == ranks.JACK
+
+
+
 

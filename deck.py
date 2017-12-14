@@ -5,11 +5,17 @@ class Deck(object):
     def __init__(self):
         self._cards = []
 
-    def draw(self):
+    def draw(self, num_cards_to_draw=1):
         if self.num_cards <= 0:
             raise NoCardsLeftException
-        else:
+        elif num_cards_to_draw == 1:
             return self._cards.pop()
+        else:
+            drawn_cards = []
+            for i in range(num_cards_to_draw):
+                drawn_cards.append(self._cards.pop())
+            return drawn_cards
+
 
     def insert_to_top(self, card):
         self._cards.append(card)
