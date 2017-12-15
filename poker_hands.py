@@ -60,6 +60,9 @@ class FiveCardHand(object):
         return self.strength < other.strength
 
 
+# I'm not writing the logic for comparisons between the same classes since that's very game dependent
+# ex. Big 2 or a games that have Ace-high, Ace-low, or both.
+# The classes are open for extension in those cases
 class HighCard(FiveCardHand):
     _strength = 0
 
