@@ -1,5 +1,5 @@
-from deck import StandardPlayingCardDeck
-import poker_hands
+from cards.deck import StandardPlayingCardDeck
+from cards import poker_hands
 
 def main():
     deck = StandardPlayingCardDeck()

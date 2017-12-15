@@ -1,7 +1,7 @@
 from collections import defaultdict
 
-from deck import StandardPlayingCardDeck
-import poker_hands
+from cards.deck import StandardPlayingCardDeck
+from cards import poker_hands
 
 poker_hand_counter = defaultdict(int)
 deck = StandardPlayingCardDeck()
