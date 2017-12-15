@@ -8,7 +8,7 @@ def main():
         deck.shuffle()
         hand = [deck.draw() for i in range(5)]
         hand = poker_hands.classify(hand)
-        print(hand.__class__)
+        print(hand.__class__.__name__)
         print(hand)
         for card in hand:
             deck.insert_to_bottom(card)
