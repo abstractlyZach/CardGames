@@ -1,10 +1,10 @@
 import pytest
 
-import cards
-import exceptions
-import poker_hands
-import ranks
-import suits
+from cards import cards
+from cards import exceptions
+from cards import poker_hands
+from cards import ranks
+from cards import suits
 
 @pytest.fixture
 def royal_flush_diamonds():

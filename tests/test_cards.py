@@ -1,9 +1,9 @@
 import pytest
 
-import cards
-import exceptions
-import ranks
-import suits
+from cards import cards
+from cards import exceptions
+from cards import ranks
+from cards import suits
 
 class TestCards(object):
     def test_init(self):

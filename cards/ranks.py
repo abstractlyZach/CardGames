@@ -1,4 +1,4 @@
-import exceptions
+from . import exceptions
 
 TWO = '2'
 THREE = '3'

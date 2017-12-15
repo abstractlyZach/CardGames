@@ -1,6 +1,6 @@
-import exceptions
-import ranks
-import suits
+from . import exceptions
+from . import ranks
+from . import suits
 
 
 class Card(object):

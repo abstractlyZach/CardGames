@@ -1,4 +1,4 @@
-import suits
+from cards import suits
 
 SUITS = ['Diamond', 'Clover', 'Heart', 'Spade']
 

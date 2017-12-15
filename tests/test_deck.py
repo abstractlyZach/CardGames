@@ -1,10 +1,10 @@
 import pytest
 
-import cards
-from deck import Deck
-import exceptions
-import ranks
-import suits
+from cards import cards
+from cards.deck import Deck
+from cards import exceptions
+from cards import ranks
+from cards import suits
 
 @pytest.fixture
 def empty_deck():
@@ -69,7 +69,7 @@ def test_bottom_insert_two_and_draw_yields_first_inserted_card(empty_deck):
     assert drawn_card == three
 
 def test_shuffle(stacked_deck, mocker):
-    shuffle = mocker.patch('deck.random.shuffle')
+    shuffle = mocker.patch('cards.deck.random.shuffle')
     stacked_deck.shuffle()
     assert shuffle.call_count == 1
 

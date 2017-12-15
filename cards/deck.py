@@ -1,8 +1,9 @@
 import random
-import cards
-import exceptions
-import ranks
-import suits
+
+from . import cards
+from . import exceptions
+from . import ranks
+from . import suits
 
 
 class Deck(object):

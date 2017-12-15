@@ -1,7 +1,7 @@
 from collections import defaultdict
 
-import exceptions
-import ranks
+from . import exceptions
+from . import ranks
 
 
 class FiveCardHand(object):
