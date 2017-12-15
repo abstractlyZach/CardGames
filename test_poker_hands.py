@@ -77,6 +77,12 @@ def straight_ace_high():
     hand.append(cards.StandardPlayingCard(ranks.ACE, suits.DIAMOND))
     return poker_hands.FiveCardHand(hand)
 
+@pytest.fixture
+def straight_flush_spades_5_high():
+    hand = [cards.StandardPlayingCard(rank, suits.SPADE)
+            for rank in [ranks.ACE, ranks.TWO, ranks.THREE, ranks.FOUR, ranks.FIVE]]
+    return poker_hands.classify(hand)
+
 
 class TestFiveCardHand():
     def test_init(self, royal_flush_diamonds):
@@ -179,6 +185,9 @@ class TestClassifyFlushes(object):
     def test_classify_straight_flush_is_straight_flush(self, royal_flush_diamonds):
         assert isinstance(poker_hands.classify(royal_flush_diamonds), poker_hands.StraightFlush)
 
+    def test_classify_flush_is_not_straight_flush(self, flush_spades):
+        assert not isinstance(poker_hands.classify(flush_spades), poker_hands.StraightFlush)
+
 
 class TestClassifyStraight(object):
     def test_classify_straight_ace_low(self, straight_ace_low):
@@ -201,6 +210,9 @@ class TestClassifyStraight(object):
 
     def test_classify_straight_default_with_ace_high(self, straight_ace_high):
         assert isinstance(poker_hands.classify(straight_ace_high), poker_hands.Straight)
+
+    def test_straight_flush_is_straight(self, royal_flush_diamonds):
+        assert isinstance(poker_hands.classify(royal_flush_diamonds), poker_hands.Straight)
 
 
 class TestClassifyHighCard(object):
