@@ -46,12 +46,12 @@ class FiveCardHand(object):
         return self._strength
 
     def __repr__(self):
-        return 'Hand:\n' \
+        return '{}:\n' \
                '    {}\n' \
                '    {}\n' \
                '    {}\n' \
                '    {}\n' \
-               '    {}\n'.format(*self._cards)
+               '    {}\n'.format(self.__class__.__name__, *self._cards)
 
     def __iter__(self):
         for card in self._cards:
