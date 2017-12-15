@@ -81,3 +81,25 @@ def test_remove(stacked_deck):
         assert expected_card in stacked_deck
     assert stacked_deck.num_cards == 4
 
+def test_remove_all_single_card(stacked_deck):
+    stacked_deck.remove_all(cards.StandardPlayingCard(ranks.ACE, suits.SPADE))
+    expected_cards = [cards.StandardPlayingCard(rank, suits.SPADE)
+                      for rank in [ranks.TEN, ranks.JACK, ranks.QUEEN, ranks.KING]]
+    for expected_card in expected_cards:
+        assert expected_card in stacked_deck
+    assert stacked_deck.num_cards == 4
+
+def test_remove_all_criteria(stacked_deck):
+    stacked_deck.remove_all(suits.SPADE)
+    assert stacked_deck.num_cards == 0
+
+def test_remove_all_except_one(empty_deck):
+    deck = empty_deck
+    for i in range(5):
+        deck.insert_to_top(cards.StandardPlayingCard(ranks.KING, suits.HEART))
+    deck.insert_to_top(cards.StandardPlayingCard(ranks.FOUR, suits.SPADE))
+    deck.shuffle()
+    deck.remove_all(ranks.KING)
+    assert deck.num_cards == 1
+    assert deck.draw() == cards.StandardPlayingCard(ranks.FOUR, suits.SPADE)
+
