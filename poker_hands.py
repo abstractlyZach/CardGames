@@ -131,13 +131,18 @@ def classify(hand, is_straight_function=is_straight_ace_low_high):
     else:
         return HighCard(five_card_hand)
 
+def is_flush(five_card_hand):
+    for suit, suit_count in five_card_hand.suit_counts.items():
+        if suit_count == 5:
+            return True
+    return False
+
 def _classify_hand_with_matches(five_card_hand):
     first_pass = _classify_hand_with_matches_first_pass(five_card_hand)
     if first_pass is not None:
         return first_pass
     else:
         return _classify_hand_with_matches_second_pass(five_card_hand)
-
 
 def _classify_hand_with_matches_first_pass(five_card_hand):
     for rank, rank_count in five_card_hand.rank_counts.items():
@@ -163,11 +168,3 @@ def _classify_hand_with_matches_second_pass(five_card_hand):
         return TwoPair(five_card_hand)
     else:
         return OnePair(five_card_hand)
-
-def is_flush(five_card_hand):
-    for suit, suit_count in five_card_hand.suit_counts.items():
-        if suit_count == 5:
-            return True
-    return False
-
-
