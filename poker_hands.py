@@ -195,6 +195,8 @@ class StraightFlush(Straight, Flush):
 
 def next_larger_rank(rank, ordered_rankings):
     rank_index = ordered_rankings.index(rank)
+    if rank_index == len(ordered_rankings) - 1:
+        raise exceptions.NoHigherRankException
     return ordered_rankings[rank_index + 1]
 
 def is_straight_ace_low_high(five_card_hand):
@@ -210,11 +212,14 @@ def _is_straight_under_ordering(five_card_hand, ordering):
     hand_card_ranks = [card.rank for card in five_card_hand]
     lowest_rank = min(hand_card_ranks, key=lambda x: ordering.index(x))
     current_rank = lowest_rank
-    for i in range(4):
-        next_rank = next_larger_rank(current_rank, ordering)
-        if next_rank not in hand_card_ranks:
-            return False
-        current_rank = next_rank
+    try:
+        for i in range(4):
+            next_rank = next_larger_rank(current_rank, ordering)
+            if next_rank not in hand_card_ranks:
+                return False
+            current_rank = next_rank
+    except exceptions.NoHigherRankException:
+        return False
     return True
 
 def classify(hand, is_straight_function=is_straight_ace_low_high):

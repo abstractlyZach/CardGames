@@ -12,3 +12,6 @@ class IllegalRankException(Exception):
 
 class NoCardsLeftException(Exception):
     pass
+
+class NoHigherRankException(Exception):
+    pass
