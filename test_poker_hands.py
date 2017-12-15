@@ -219,3 +219,55 @@ class TestClassifyHighCard(object):
     def test_classify_high_card(self, high_card):
         assert isinstance(poker_hands.classify(high_card), poker_hands.HighCard)
 
+class TestDominantRanks(object):
+    def test_straight_flush(self, royal_flush_diamonds, straight_flush_spades_5_high):
+        assert poker_hands.classify(royal_flush_diamonds).get_high_card() == ranks.ACE
+        assert poker_hands.classify(straight_flush_spades_5_high).get_high_card() == ranks.FIVE
+
+    def test_four_of_a_kind(self, four_of_a_kind_9s):
+        four_of_a_kind_9s = poker_hands.classify(four_of_a_kind_9s)
+        assert four_of_a_kind_9s.get_dominant_rank() == ranks.NINE
+        assert four_of_a_kind_9s.get_kicker() == cards.StandardPlayingCard(ranks.FOUR, suits.CLOVER)
+
+    def test_full_house(self, full_house_queens):
+        full_house_queens = poker_hands.classify(full_house_queens)
+        assert full_house_queens.get_triple_rank() == ranks.QUEEN
+        assert full_house_queens.get_double_rank() == ranks.SEVEN
+
+    def test_flush(self, flush_spades, royal_flush_diamonds, straight_flush_spades_5_high):
+        flush_spades = poker_hands.classify(flush_spades)
+        royal_flush_diamonds = poker_hands.classify(royal_flush_diamonds)
+        straight_flush_spades_5_high = poker_hands.classify(straight_flush_spades_5_high)
+        assert flush_spades.get_cards_high_to_low() == [ranks.ACE, ranks.QUEEN, ranks.TEN, ranks.SEVEN, ranks.TWO]
+        assert royal_flush_diamonds.get_cards_high_to_low() == [ranks.ACE, ranks.KING, ranks.QUEEN,
+                                                                ranks.JACK, ranks.TEN]
+        assert straight_flush_spades_5_high.get_cards_high_to_low() == [ranks.FIVE, ranks.FOUR, ranks.THREE,
+                                                                        ranks.TWO, ranks.ACE]
+
+    def test_straight(self, straight, straight_flush_spades_5_high, royal_flush_diamonds):
+        straight = poker_hands.classify(straight)
+        straight_flush_spades_5_high = poker_hands.classify(straight_flush_spades_5_high)
+        royal_flush_diamonds = poker_hands.classify(royal_flush_diamonds)
+        assert straight.get_high_card() == ranks.NINE
+        assert straight_flush_spades_5_high.get_high_card() == ranks.FIVE
+        assert royal_flush_diamonds.get_high_card() == ranks.ACE
+
+    def test_three_of_a_kind(self, three_of_a_kind):
+        three_of_a_kind = poker_hands.classify(three_of_a_kind)
+        assert three_of_a_kind.get_dominant_rank() == ranks.SIX
+        assert three_of_a_kind.get_high_kicker() == ranks.NINE
+        assert three_of_a_kind.get_low_kicker() == ranks.TWO
+
+    def test_two_pair(self, two_pair):
+        two_pair = poker_hands.classify(two_pair)
+        assert two_pair.get_high_pair_rank() == ranks.FIVE
+        assert two_pair.get_low_pair_rank() == ranks.THREE
+
+    def test_one_pair(self, one_pair):
+        one_pair = poker_hands.classify(one_pair)
+        assert one_pair.get_pair_rank() == ranks.TWO
+        assert one_pair.get_kickers_high_to_low() == [ranks.QUEEN, ranks.TEN, ranks.FIVE]
+
+    def test_high_card(self, high_card):
+        high_card = poker_hands.classify(high_card)
+        assert high_card.get_cards_high_to_low() == [ranks.TEN, ranks.FIVE, ranks.FOUR, ranks.THREE, ranks.TWO]

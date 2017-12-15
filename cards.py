@@ -44,7 +44,10 @@ class StandardPlayingCard(Card):
     # comparison operations are limited to equality. external code for game logic should be used if you're
     # comparing values. the only comparison ability cards themselves should have is knowing if they're the same card
     def __eq__(self, right):
-        return self._rank == right._rank and self._suit == right._suit
+        if isinstance(right, str): # Cards can be equated to their suit or their rank
+            return self._rank == right or self._suit == right
+        else:
+            return self._rank == right._rank and self._suit == right._suit
 
     @property
     def rank(self):
