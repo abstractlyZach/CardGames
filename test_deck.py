@@ -70,5 +70,5 @@ def test_bottom_insert_two_and_draw_yields_first_inserted_card(empty_deck):
 def test_shuffle(stacked_deck, mocker):
     shuffle = mocker.patch('deck.random.shuffle')
     stacked_deck.shuffle()
-    shuffle.assert_called_once()
+    assert shuffle.call_count == 1
 
