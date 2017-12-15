@@ -4,6 +4,7 @@ import cards
 from deck import Deck
 import exceptions
 import ranks
+import suits
 
 @pytest.fixture
 def empty_deck():
@@ -71,4 +72,12 @@ def test_shuffle(stacked_deck, mocker):
     shuffle = mocker.patch('deck.random.shuffle')
     stacked_deck.shuffle()
     assert shuffle.call_count == 1
+
+def test_remove(stacked_deck):
+    stacked_deck.remove(cards.StandardPlayingCard(ranks.ACE, suits.SPADE))
+    expected_cards = [cards.StandardPlayingCard(rank, suits.SPADE)
+                          for rank in [ranks.TEN, ranks.JACK, ranks.QUEEN, ranks.KING]]
+    for expected_card in expected_cards:
+        assert expected_card in stacked_deck
+    assert stacked_deck.num_cards == 4
 

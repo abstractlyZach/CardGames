@@ -25,6 +25,17 @@ class Deck(object):
     def shuffle(self):
         random.shuffle(self._cards)
 
+    def remove(self, card_to_remove):
+        '''Removes the first card that it finds that matches the given card'''
+        for index, card in enumerate(self._cards):
+            if card == card_to_remove:
+                return self._cards.pop(index)
+
+    def __iter__(self):
+        for card in self._cards:
+            yield card
+
+
     @property
     def num_cards(self):
         return len(self._cards)
