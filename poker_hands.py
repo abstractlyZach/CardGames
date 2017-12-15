@@ -193,12 +193,6 @@ class StraightFlush(Straight, Flush):
             return sorted(self._cards, key=lambda x: ordering.index(x.rank), reverse=True)
 
 
-def next_larger_rank(rank, ordered_rankings):
-    rank_index = ordered_rankings.index(rank)
-    if rank_index == len(ordered_rankings) - 1:
-        raise exceptions.NoHigherRankException
-    return ordered_rankings[rank_index + 1]
-
 def is_straight_ace_low_high(five_card_hand):
     return is_straight_ace_high(five_card_hand) or is_straight_ace_low(five_card_hand)
 
@@ -214,7 +208,7 @@ def _is_straight_under_ordering(five_card_hand, ordering):
     current_rank = lowest_rank
     try:
         for i in range(4):
-            next_rank = next_larger_rank(current_rank, ordering)
+            next_rank = ranks.next_larger_rank(current_rank, ordering)
             if next_rank not in hand_card_ranks:
                 return False
             current_rank = next_rank

@@ -1,3 +1,5 @@
+import exceptions
+
 TWO = '2'
 THREE = '3'
 FOUR = '4'
@@ -33,5 +35,8 @@ def get_royals():
 def get_faces():
     return [JACK, QUEEN, KING]
 
-
-
+def next_larger_rank(rank, ordered_rankings):
+    rank_index = ordered_rankings.index(rank)
+    if rank_index == len(ordered_rankings) - 1:
+        raise exceptions.NoHigherRankException
+    return ordered_rankings[rank_index + 1]
