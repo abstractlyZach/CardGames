@@ -58,9 +58,13 @@ class FiveCardHand(object):
             yield card
 
     def __gt__(self, other):
+        if self.strength == other.strength:
+            raise exceptions.SamePokerHandClassException
         return self.strength > other.strength
 
     def __lt__(self, other):
+        if self.strength == other.strength:
+            raise exceptions.SamePokerHandClassException
         return self.strength < other.strength
 
 

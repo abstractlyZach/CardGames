@@ -157,6 +157,15 @@ class TestHandTrumpMechanics(object):
         assert one_pair > high_card
         assert high_card < one_pair
 
+    def test_same_hands_raise_exception(self, one_pair, royal_flush_diamonds, three_of_a_kind):
+        with pytest.raises(exceptions.SamePokerHandClassException):
+            assert one_pair > one_pair
+        royal_flush_diamonds = poker_hands.classify(royal_flush_diamonds)
+        with pytest.raises(exceptions.SamePokerHandClassException):
+            assert royal_flush_diamonds < royal_flush_diamonds
+        with pytest.raises(exceptions.SamePokerHandClassException):
+            assert three_of_a_kind > three_of_a_kind
+
 
 class TestClassifyRankMatches(object):
     def test_classify_four_of_a_kind(self, four_of_a_kind_9s):

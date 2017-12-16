@@ -15,3 +15,6 @@ class NoCardsLeftException(Exception):
 
 class NoHigherRankException(Exception):
     pass
+
+class SamePokerHandClassException(Exception):
+    pass
