@@ -200,7 +200,7 @@ class FullHouse(FiveCardHand):
                 return rank
 
     def get_double_rank(self):
-        for rank, rank_count in self._rank_counts.items()
+        for rank, rank_count in self._rank_counts.items():
             if rank_count == 2:
                 return rank
 
