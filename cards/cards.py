@@ -25,7 +25,7 @@ class StandardPlayingCard(Card):
         self._rank = str(rank).capitalize()
         self._suit = suit.rstrip('s').capitalize() # allows (Ace, Spade) and (Ace, Spades)
         self._check_legal_card()
-        self._name = '{} of {}s'.format(self._rank[0], self._suit)
+        self._name = '{} of {}s'.format(self._rank, self._suit)
         self._text = ''
         self._flavor_text = ''
 
@@ -50,7 +50,7 @@ class StandardPlayingCard(Card):
             return self._rank == right._rank and self._suit == right._suit
 
     def __repr__(self):
-        return '{} {}'.format(self._rank[0], suits.get_suit_symbol(self._suit))
+        return '{:>2} {}'.format(ranks.get_rank_symbol(self._rank), suits.get_suit_symbol(self._suit))
 
     @property
     def rank(self):

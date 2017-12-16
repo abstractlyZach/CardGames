@@ -40,3 +40,9 @@ def next_larger_rank(rank, ordered_rankings):
     if rank_index == len(ordered_rankings) - 1:
         raise exceptions.NoHigherRankException
     return ordered_rankings[rank_index + 1]
+
+def get_rank_symbol(rank):
+    if rank in [JACK, QUEEN, KING, ACE]:
+        return rank[0]
+    else:
+        return rank
