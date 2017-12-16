@@ -49,6 +49,9 @@ class StandardPlayingCard(Card):
         else:
             return self._rank == right._rank and self._suit == right._suit
 
+    def __repr__(self):
+        return '{} {}'.format(self._rank[0], suits.get_suit_symbol(self._suit))
+
     @property
     def rank(self):
         return self._rank
