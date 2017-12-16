@@ -30,8 +30,11 @@ class FiveCardHand(object):
         return False
 
     def get_cards_high_to_low(self, ordering=ranks.ORDERED_RANKS_ACE_HIGH):
-        return sorted(self._cards, key=lambda x: ordering.index(x), reverse=True)
+        self._cards.sort(key=lambda x: ordering.index(x), reverse=True)
+        return self._cards
 
+    def same_strength(self, other):
+        return self.strength == other.strength
 
     @property
     def suit_counts(self):
@@ -54,7 +57,7 @@ class FiveCardHand(object):
         '    {}\n' \
         '    {}\n' \
         '    {}\n' \
-        '    {}\n'.format(*self._cards)
+        '    {}\n'.format(*self.get_cards_high_to_low())
 
     def __iter__(self):
         for card in self._cards:
@@ -197,7 +200,7 @@ class FullHouse(FiveCardHand):
                 return rank
 
     def get_double_rank(self):
-        for rank, rank_count in self._rank_counts.items():
+        for rank, rank_count in self._rank_counts.items()
             if rank_count == 2:
                 return rank
 
@@ -236,6 +239,9 @@ class StraightFlush(Straight, Flush):
                    [card for card in self._cards if card == ranks.ACE]
         else:
             return sorted(self._cards, key=lambda x: ordering.index(x.rank), reverse=True)
+
+    def __repr__(self):
+        return 'Straight Flush:\n{}'.format(self.get_cards_as_string())
 
 
 
