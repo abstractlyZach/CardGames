@@ -27,7 +27,7 @@ class TestCards(object):
 
     def test_text(self):
         ace = cards.StandardPlayingCard('Ace', 'Spade')
-        assert ace.name == 'A of Spades'
+        assert ace.name == 'Ace of Spades'
 
     def test_card_identity_property(self):
         king = cards.StandardPlayingCard('King', 'diamonds')

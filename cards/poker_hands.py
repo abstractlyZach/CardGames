@@ -46,12 +46,15 @@ class FiveCardHand(object):
         return self._strength
 
     def __repr__(self):
-        return '{}:\n' \
-               '    {}\n' \
-               '    {}\n' \
-               '    {}\n' \
-               '    {}\n' \
-               '    {}\n'.format(self.__class__.__name__, *self._cards)
+        return '{}:\n'.format(self.__class__.__name__) + self.get_cards_as_string()
+
+    def get_cards_as_string(self):
+        return '' \
+        '    {}\n' \
+        '    {}\n' \
+        '    {}\n' \
+        '    {}\n' \
+        '    {}\n'.format(*self._cards)
 
     def __iter__(self):
         for card in self._cards:
@@ -74,6 +77,12 @@ class FiveCardHand(object):
 class HighCard(FiveCardHand):
     _strength = 0
 
+    def __repr__(self):
+        high_card = self.get_cards_high_to_low()[0]
+        high_card_rank = high_card.rank
+        return '{} {}:\n'.format(self.__class__.__name__, high_card_rank) + self.get_cards_as_string()
+
+
 class OnePair(FiveCardHand):
     _strength = 1
 
@@ -87,7 +96,8 @@ class OnePair(FiveCardHand):
         kickers = [card for card in self._cards if card.rank in kicker_ranks]
         return sorted(kickers, key=lambda x: ordering.index(x), reverse=True)
 
-
+    def __repr__(self):
+        return '{} {}\n'.format(self.__class__.__name__, self.get_pair_rank() + 's') + self.get_cards_as_string()
 
 class TwoPair(FiveCardHand):
     _strength = 2
@@ -112,6 +122,11 @@ class TwoPair(FiveCardHand):
             if rank_count == 2:
                 self._pair_ranks.append(rank)
 
+    def __repr__(self):
+        high_pair_string = self.get_high_pair_rank() + 's'
+        low_pair_string = self.get_low_pair_rank() + 's'
+        class_name = self.__class__.__name__
+        return '{} {} and {}:\n{}'.format(class_name, high_pair_string, low_pair_string, self.get_cards_as_string())
 
 class ThreeOfAKind(FiveCardHand):
     _strength = 3
@@ -141,6 +156,12 @@ class ThreeOfAKind(FiveCardHand):
                 rank_index = self._cards.index(rank)
                 self._kickers.append(self._cards[rank_index])
 
+    def __repr__(self):
+        class_name = self.__class__.__name__
+        triple_string = self.get_dominant_rank() + 's'
+        card_string = self.get_cards_as_string()
+        return '{} {}:\n{}'.format(class_name, triple_string, card_string)
+
 class Straight(FiveCardHand):
     _strength = 4
 
@@ -151,11 +172,21 @@ class Straight(FiveCardHand):
         else:
             return max(self._cards, key=lambda x: ordering.index(x))
 
+    def __repr__(self):
+        type_of_straight = '{}-High'.format(self.get_high_card().rank)
+        card_string = self.get_cards_as_string()
+        return '{} Straight:\n{}'.format(type_of_straight, card_string)
+
 class Flush(FiveCardHand):
     _strength = 5
 
     def get_cards_high_to_low(self, ordering=ranks.ORDERED_RANKS_ACE_HIGH):
         return sorted(self._cards, key=lambda x: ordering.index(x.rank), reverse=True)
+
+    def __repr__(self):
+        suit = self._cards[0].rank + 's'
+        card_string = self.get_cards_as_string()
+        return 'Flush of {}:\n{}'.format(suit, card_string)
 
 class FullHouse(FiveCardHand):
     _strength = 6
@@ -169,6 +200,11 @@ class FullHouse(FiveCardHand):
         for rank, rank_count in self._rank_counts.items():
             if rank_count == 2:
                 return rank
+
+    def __repr__(self):
+        triple_string = self.get_triple_rank() + 's'
+        card_string = self.get_cards_as_string()
+        return 'Full House of {}:\n{}'.format(triple_string, card_string)
 
 class FourOfAKind(FiveCardHand):
     _strength = 7
@@ -185,6 +221,11 @@ class FourOfAKind(FiveCardHand):
         kicker_index = self._cards.index(kicker_rank)
         return self._cards[kicker_index]
 
+    def __repr__(self):
+        rank_string = self.get_dominant_rank() + 's'
+        card_string = self.get_cards_as_string()
+        return 'Four of a Kind {}:\n{}'.format(rank_string, card_string)
+
 class StraightFlush(Straight, Flush):
     _strength = 8
 
@@ -195,6 +236,7 @@ class StraightFlush(Straight, Flush):
                    [card for card in self._cards if card == ranks.ACE]
         else:
             return sorted(self._cards, key=lambda x: ordering.index(x.rank), reverse=True)
+
 
 
 def is_straight_ace_low_high(five_card_hand):
