@@ -13,8 +13,10 @@ JACK = 'Jack'
 QUEEN = 'Queen'
 KING = 'King'
 ACE = 'Ace'
-ORDERED_RANKS_ACE_HIGH = [TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE, TEN, JACK, QUEEN, KING, ACE]
-ORDERED_RANKS_ACE_LOW = [ACE, TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE, TEN, JACK, QUEEN, KING]
+ORDERED_RANKS_ACE_HIGH = [TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE,
+                          TEN, JACK, QUEEN, KING, ACE]
+ORDERED_RANKS_ACE_LOW = [ACE, TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE,
+                         TEN, JACK, QUEEN, KING]
 
 def get_all_ranks():
     """Return all ranks."""
@@ -39,7 +41,8 @@ def get_faces():
     return [JACK, QUEEN, KING]
 
 def next_larger_rank(rank, ordered_rankings):
-    """Return the next larger rank in the ordering. Raise an exception if it's the highest ranking."""
+    """Return the next larger rank in the ordering. Raise an exception if it's
+    the highest ranking."""
     rank_index = ordered_rankings.index(rank)
     if rank_index == len(ordered_rankings) - 1:
         raise exceptions.NoHigherRankException

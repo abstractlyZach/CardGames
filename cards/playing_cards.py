@@ -28,7 +28,8 @@ class StandardPlayingCard(Card):
     """"Standard French playing card."""
     def __init__(self, rank, suit):
         self._rank = str(rank).capitalize()
-        self._suit = suit.rstrip('s').capitalize() # allows (Ace, Spade) and (Ace, Spades)
+        # allows (Ace, Spade) and (Ace, Spades)
+        self._suit = suit.rstrip('s').capitalize()
         self._check_legal_card()
         self._name = '{} of {}s'.format(self._rank, self._suit)
         self._text = ''
@@ -46,16 +47,19 @@ class StandardPlayingCard(Card):
         if self._rank not in ranks.get_all_ranks():
             raise exceptions.IllegalRankException
 
-    # comparison operations are limited to equality. external code for game logic should be used if you're
-    # comparing values. the only comparison ability cards themselves should have is knowing if they're the same card
+    # comparison operations are limited to equality. external code for game
+    # logic should be used if you're comparing values. the only comparison
+    # ability cards themselves should have is knowing if they're the same card
     def __eq__(self, right):
-        if isinstance(right, str): # Cards can be equated to their suit or their rank
+        # Cards can be equated to their suit or their rank
+        if isinstance(right, str):
             return self._rank == right or self._suit == right
         else:
             return self._rank == right._rank and self._suit == right._suit
 
     def __repr__(self):
-        return '{:>2} {}'.format(ranks.get_rank_symbol(self._rank), suits.get_suit_symbol(self._suit))
+        return '{:>2} {}'.format(ranks.get_rank_symbol(self._rank),
+                                 suits.get_suit_symbol(self._suit))
 
     @property
     def rank(self):

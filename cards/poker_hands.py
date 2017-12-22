@@ -3,7 +3,8 @@ from cards.five_card_hand import FiveCardHand
 from . import ranks
 
 
-# I'm not writing the logic for comparisons between the same classes since that's very game dependent
+# I'm not writing the logic for comparisons between the same classes since
+# that's very game dependent.
 # ex. Big 2 or a games that have Ace-high, Ace-low, or both.
 # The classes are open for extension in those cases
 class HighCard(FiveCardHand):
@@ -13,7 +14,8 @@ class HighCard(FiveCardHand):
     def __repr__(self):
         high_card = self.get_cards_high_to_low()[0]
         high_card_rank = high_card.rank
-        return '{} {}:\n'.format(self.__class__.__name__, high_card_rank) + self.get_cards_as_string()
+        return '{} {}:\n{}'.format(self.__class__.__name__, high_card_rank,
+                                 self.get_cards_as_string())
 
 class OnePair(FiveCardHand):
     """One pair hand."""
@@ -24,14 +26,18 @@ class OnePair(FiveCardHand):
             if rank_counts == 2:
                 return rank
 
-    def get_kickers_high_to_low(self, ordering=ranks.ORDERED_RANKS_ACE_HIGH):
+    def get_kickers_high_to_low(self,
+                                ordering=ranks.ORDERED_RANKS_ACE_HIGH):
         """Return kickers high to low."""
-        kicker_ranks = [rank for rank, rank_count in self._rank_counts.items() if rank_count == 1]
+        kicker_ranks = [rank for rank, rank_count in self._rank_counts.items()
+                        if rank_count == 1]
         kickers = [card for card in self._cards if card.rank in kicker_ranks]
         return sorted(kickers, key=lambda x: ordering.index(x), reverse=True)
 
     def __repr__(self):
-        return '{} {}\n'.format(self.__class__.__name__, self.get_pair_rank() + 's') + self.get_cards_as_string()
+        return '{} {}\n{}'.format(self.__class__.__name__,
+                                  self.get_pair_rank() + 's',
+                                  self.get_cards_as_string())
 
 class TwoPair(FiveCardHand):
     """Two pair hand."""
@@ -63,7 +69,9 @@ class TwoPair(FiveCardHand):
         high_pair_string = self.get_high_pair_rank() + 's'
         low_pair_string = self.get_low_pair_rank() + 's'
         class_name = self.__class__.__name__
-        return '{} {} and {}:\n{}'.format(class_name, high_pair_string, low_pair_string, self.get_cards_as_string())
+        return '{} {} and {}:\n{}'.format(class_name, high_pair_string,
+                                          low_pair_string,
+                                          self.get_cards_as_string())
 
 class ThreeOfAKind(FiveCardHand):
     """Three of kind hand."""
@@ -127,7 +135,8 @@ class Flush(FiveCardHand):
 
     def get_cards_high_to_low(self, ordering=ranks.ORDERED_RANKS_ACE_HIGH):
         """Return the cards from high to low."""
-        return sorted(self._cards, key=lambda x: ordering.index(x.rank), reverse=True)
+        return sorted(self._cards, key=lambda x: ordering.index(x.rank),
+                      reverse=True)
 
     def __repr__(self):
         suit = self._cards[0].rank + 's'
@@ -186,10 +195,12 @@ class StraightFlush(Straight, Flush):
         """Return cards from highest to lowest."""
         # special case where Ace is low
         if is_straight_ace_low(self) and not is_straight_ace_high(self):
-            return sorted(self._cards, key=lambda x: ordering.index(x.rank), reverse=True)[1:] + \
+            return sorted(self._cards, key=lambda x: ordering.index(x.rank),
+                          reverse=True)[1:] + \
                    [card for card in self._cards if card == ranks.ACE]
         else:
-            return sorted(self._cards, key=lambda x: ordering.index(x.rank), reverse=True)
+            return sorted(self._cards, key=lambda x: ordering.index(x.rank),
+                          reverse=True)
 
     def __repr__(self):
         return 'Straight Flush:\n{}'.format(self.get_cards_as_string())

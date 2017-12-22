@@ -5,8 +5,9 @@ from cards.poker_hands import StraightFlush, Straight, Flush, HighCard, FourOfAK
 
 
 def classify(hand, is_straight_function=is_straight_ace_low_high):
-    """Takes a list of cards or a FiveCardHand and classifies it as one of the poker hands,
-    returning an object of that type containing the given cards."""
+    """Takes a list of cards or a FiveCardHand and classifies it as one
+    of the poker hands, returning an object of that type containing the
+    given cards."""
     five_card_hand = FiveCardHand(hand)
     hand_is_straight = is_straight_function(five_card_hand)
     hand_is_flush = is_flush(five_card_hand)
@@ -47,7 +48,8 @@ def _classify_card_with_3_of_same_rank(five_card_hand):
 
 
 def _classify_hand_with_matches_second_pass(five_card_hand):
-    '''Second pass of classifications. hand is guaranteed to not have more than two of a kind'''
+    '''Second pass of classifications. hand is guaranteed to not have more
+    than two of a kind'''
     num_pairs = 0
     for rank, rank_count in five_card_hand.rank_counts.items():
         if rank_count == 2:

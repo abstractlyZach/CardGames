@@ -7,7 +7,8 @@ from . import suits
 
 
 class Deck(object):
-    """A collection of cards that can execute common actions, like drawing, inserting, and shuffling."""
+    """A collection of cards that can execute common actions, like drawing,
+    inserting, and shuffling."""
     def __init__(self):
         self._cards = []
 
@@ -31,14 +32,16 @@ class Deck(object):
         random.shuffle(self._cards)
 
     def remove(self, card_to_remove):
-        """Removes the first card that it finds that matches the given criteria."""
+        """Removes the first card that it finds that matches the given
+        criteria."""
         for index, card in enumerate(self._cards):
             if card == card_to_remove:
                 return self._cards.pop(index)
 
     def remove_all(self, card_to_remove):
         """Remove all cards matching the given card, suit, or rank."""
-        removed_cards = [card for card in self._cards if card == card_to_remove]
+        removed_cards = [card for card in self._cards
+                         if card == card_to_remove]
         self._cards = [card for card in self._cards if card != card_to_remove]
         return removed_cards
 
@@ -59,4 +62,5 @@ class StandardPlayingCardDeck(Deck):
         super().__init__()
         for rank in ranks.get_all_ranks():
             for suit in suits.get_all_suits():
-                self._cards.append(playing_cards.StandardPlayingCard(rank, suit))
+                card = playing_cards.StandardPlayingCard(rank, suit)
+                self._cards.append(card)

@@ -3,17 +3,20 @@ from cards import ranks, exceptions
 
 def is_straight_ace_low_high(five_card_hand):
     """Returns true if the straight is valid under Ace Low-High rules."""
-    return is_straight_ace_high(five_card_hand) or is_straight_ace_low(five_card_hand)
+    return is_straight_ace_high(five_card_hand) or \
+           is_straight_ace_low(five_card_hand)
 
 
 def is_straight_ace_low(five_card_hand):
     """Returns true if the straight is valid under Ace Low rules."""
-    return _is_straight_under_ordering(five_card_hand, ranks.ORDERED_RANKS_ACE_LOW)
+    return _is_straight_under_ordering(five_card_hand,
+                                       ranks.ORDERED_RANKS_ACE_LOW)
 
 
 def is_straight_ace_high(five_card_hand):
     """Returns true if the straight is valid under Ace High rules."""
-    return _is_straight_under_ordering(five_card_hand, ranks.ORDERED_RANKS_ACE_HIGH)
+    return _is_straight_under_ordering(five_card_hand,
+                                       ranks.ORDERED_RANKS_ACE_HIGH)
 
 
 def _is_straight_under_ordering(five_card_hand, ordering):

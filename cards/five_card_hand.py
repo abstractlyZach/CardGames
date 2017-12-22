@@ -24,7 +24,8 @@ class FiveCardHand(object):
             self._rank_counts[card.rank] += 1
 
     def has_matches(self):
-        """Return a boolean telling whether or not there are multiple cards of the same rank."""
+        """Return a boolean telling whether or not there are multiple cards of
+        the same rank."""
         for rank, rank_count in self._rank_counts.items():
             if rank_count > 1:
                 return True
@@ -55,7 +56,8 @@ class FiveCardHand(object):
         return self._strength
 
     def __repr__(self):
-        return '{}:\n'.format(self.__class__.__name__) + self.get_cards_as_string()
+        return '{}:\n{}'.format(self.__class__.__name__,
+               self.get_cards_as_string())
 
     def get_cards_as_string(self):
         """Return a string representing the five-card-hand."""
