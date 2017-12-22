@@ -11,8 +11,5 @@ Poker Hands
 -------------
 Hi this is poker hands.
 
-.. autoclass:: cards.poker_hands.FiveCardHand
-        :members:
-
 .. automodule:: cards.poker_hands
         :members:
