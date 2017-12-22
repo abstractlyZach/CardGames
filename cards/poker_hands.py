@@ -5,6 +5,7 @@ from . import ranks
 
 
 class FiveCardHand(object):
+    """General class for hands with five cards."""
     def __init__(self, cards):
         self._cards = list(cards)
         self._check_hand_size()
@@ -24,34 +25,41 @@ class FiveCardHand(object):
             self._rank_counts[card.rank] += 1
 
     def has_matches(self):
+        """Return a boolean telling whether or not there are multiple cards of the same rank."""
         for rank, rank_count in self._rank_counts.items():
             if rank_count > 1:
                 return True
         return False
 
     def get_cards_high_to_low(self, ordering=ranks.ORDERED_RANKS_ACE_HIGH):
+        """Return cards from highest rank to lowest."""
         self._cards.sort(key=lambda x: ordering.index(x), reverse=True)
         return self._cards
 
     def same_strength(self, other):
+        """Evaluates if two poker hands have the same strength."""
         return self.strength == other.strength
 
     @property
     def suit_counts(self):
+        """Get suit counts."""
         return self._suit_counts
 
     @property
     def rank_counts(self):
+        """Get rank counts."""
         return self._rank_counts
 
     @property
     def strength(self):
+        """Get hand strength."""
         return self._strength
 
     def __repr__(self):
         return '{}:\n'.format(self.__class__.__name__) + self.get_cards_as_string()
 
     def get_cards_as_string(self):
+        """Return a string representing the five-card-hand."""
         return '' \
         '    {}\n' \
         '    {}\n' \
@@ -95,6 +103,7 @@ class OnePair(FiveCardHand):
                 return rank
 
     def get_kickers_high_to_low(self, ordering=ranks.ORDERED_RANKS_ACE_HIGH):
+        """Return kickers high to low."""
         kicker_ranks = [rank for rank, rank_count in self._rank_counts.items() if rank_count == 1]
         kickers = [card for card in self._cards if card.rank in kicker_ranks]
         return sorted(kickers, key=lambda x: ordering.index(x), reverse=True)
@@ -110,11 +119,13 @@ class TwoPair(FiveCardHand):
         self._pair_ranks = None
 
     def get_high_pair_rank(self, ordering=ranks.ORDERED_RANKS_ACE_HIGH):
+        """Return the rank of the higher pair."""
         if self._pair_ranks is None:
             self._find_pairs()
         return max(self._pair_ranks, key=lambda x: ordering.index(x))
 
     def get_low_pair_rank(self, ordering=ranks.ORDERED_RANKS_ACE_HIGH):
+        """Return the rank of the lower pair."""
         if self._pair_ranks is None:
             self._find_pairs()
         return min(self._pair_ranks, key=lambda x: ordering.index(x))
@@ -139,15 +150,19 @@ class ThreeOfAKind(FiveCardHand):
         self._kickers = None
 
     def get_dominant_rank(self):
+        """Return the rank of the three-of-a-kind."""
         for rank, rank_count in self.rank_counts.items():
             if rank_count == 3:
                 return rank
 
     def get_high_kicker(self, ordering=ranks.ORDERED_RANKS_ACE_HIGH):
+        """Return the high kicker."""
         if self._kickers is None:
             self._find_kickers()
         return max(self._kickers, key=lambda x: ordering.index(x.rank))
+
     def get_low_kicker(self, ordering=ranks.ORDERED_RANKS_ACE_HIGH):
+        """Return the low kicker."""
         if self._kickers is None:
             self._find_kickers()
         return min(self._kickers, key=lambda x: ordering.index(x.rank))
@@ -169,6 +184,7 @@ class Straight(FiveCardHand):
     _strength = 4
 
     def get_high_card(self, ordering=ranks.ORDERED_RANKS_ACE_HIGH):
+        """Return the high card."""
         # check if only would be high in ace-low rules
         if is_straight_ace_low(self) and not is_straight_ace_high(self):
             return ranks.FIVE
@@ -184,6 +200,7 @@ class Flush(FiveCardHand):
     _strength = 5
 
     def get_cards_high_to_low(self, ordering=ranks.ORDERED_RANKS_ACE_HIGH):
+        """Return the cards from high to low."""
         return sorted(self._cards, key=lambda x: ordering.index(x.rank), reverse=True)
 
     def __repr__(self):
@@ -195,11 +212,13 @@ class FullHouse(FiveCardHand):
     _strength = 6
 
     def get_triple_rank(self):
+        """Return the rank of the triple."""
         for rank, rank_count in self._rank_counts.items():
             if rank_count == 3:
                 return rank
 
     def get_double_rank(self):
+        """Return the rank of the double."""
         for rank, rank_count in self._rank_counts.items():
             if rank_count == 2:
                 return rank
@@ -213,11 +232,13 @@ class FourOfAKind(FiveCardHand):
     _strength = 7
 
     def get_dominant_rank(self):
+        """Return the rank of the four-of-a-kind."""
         for rank, rank_count in self._rank_counts.items():
             if rank_count == 4:
                 return rank
 
     def get_kicker(self):
+        """Get the kicker."""
         for rank, rank_count in self._rank_counts.items():
             if rank_count == 1:
                 kicker_rank = rank
@@ -233,6 +254,7 @@ class StraightFlush(Straight, Flush):
     _strength = 8
 
     def get_cards_high_to_low(self, ordering=ranks.ORDERED_RANKS_ACE_HIGH):
+        """Return cards from highest to lowest."""
         # special case where Ace is low
         if is_straight_ace_low(self) and not is_straight_ace_high(self):
             return sorted(self._cards, key=lambda x: ordering.index(x.rank), reverse=True)[1:] + \
@@ -246,12 +268,15 @@ class StraightFlush(Straight, Flush):
 
 
 def is_straight_ace_low_high(five_card_hand):
+    """Returns true if the straight is valid under Ace Low-High rules."""
     return is_straight_ace_high(five_card_hand) or is_straight_ace_low(five_card_hand)
 
 def is_straight_ace_low(five_card_hand):
+    """Returns true if the straight is valid under Ace Low rules."""
     return _is_straight_under_ordering(five_card_hand, ranks.ORDERED_RANKS_ACE_LOW)
 
 def is_straight_ace_high(five_card_hand):
+    """Returns true if the straight is valid under Ace High rules."""
     return _is_straight_under_ordering(five_card_hand, ranks.ORDERED_RANKS_ACE_HIGH)
 
 def _is_straight_under_ordering(five_card_hand, ordering):
@@ -269,6 +294,8 @@ def _is_straight_under_ordering(five_card_hand, ordering):
     return True
 
 def classify(hand, is_straight_function=is_straight_ace_low_high):
+    """Takes a list of cards or a FiveCardHand and classifies it as one of the poker hands,
+    returning an object of that type containing the given cards.."""
     five_card_hand = FiveCardHand(hand)
     hand_is_straight = is_straight_function(five_card_hand)
     hand_is_flush = is_flush(five_card_hand)
@@ -284,6 +311,7 @@ def classify(hand, is_straight_function=is_straight_ace_low_high):
         return HighCard(five_card_hand)
 
 def is_flush(five_card_hand):
+    """Return true if the hand is a flush."""
     for suit, suit_count in five_card_hand.suit_counts.items():
         if suit_count == 5:
             return True
