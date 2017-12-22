@@ -86,6 +86,7 @@ class FiveCardHand(object):
 # ex. Big 2 or a games that have Ace-high, Ace-low, or both.
 # The classes are open for extension in those cases
 class HighCard(FiveCardHand):
+    """High card hand."""
     _strength = 0
 
     def __repr__(self):
@@ -95,6 +96,7 @@ class HighCard(FiveCardHand):
 
 
 class OnePair(FiveCardHand):
+    """One pair hand."""
     _strength = 1
 
     def get_pair_rank(self):
@@ -112,6 +114,7 @@ class OnePair(FiveCardHand):
         return '{} {}\n'.format(self.__class__.__name__, self.get_pair_rank() + 's') + self.get_cards_as_string()
 
 class TwoPair(FiveCardHand):
+    """Two pair hand."""
     _strength = 2
 
     def __init__(self, cards):
@@ -143,6 +146,7 @@ class TwoPair(FiveCardHand):
         return '{} {} and {}:\n{}'.format(class_name, high_pair_string, low_pair_string, self.get_cards_as_string())
 
 class ThreeOfAKind(FiveCardHand):
+    """Three of kind hand."""
     _strength = 3
 
     def __init__(self, cards):
@@ -181,6 +185,7 @@ class ThreeOfAKind(FiveCardHand):
         return '{} {}:\n{}'.format(class_name, triple_string, card_string)
 
 class Straight(FiveCardHand):
+    """Straight hand."""
     _strength = 4
 
     def get_high_card(self, ordering=ranks.ORDERED_RANKS_ACE_HIGH):
@@ -197,6 +202,7 @@ class Straight(FiveCardHand):
         return '{} Straight:\n{}'.format(type_of_straight, card_string)
 
 class Flush(FiveCardHand):
+    """Flush hand."""
     _strength = 5
 
     def get_cards_high_to_low(self, ordering=ranks.ORDERED_RANKS_ACE_HIGH):
@@ -209,6 +215,7 @@ class Flush(FiveCardHand):
         return 'Flush of {}:\n{}'.format(suit, card_string)
 
 class FullHouse(FiveCardHand):
+    """Full house hand."""
     _strength = 6
 
     def get_triple_rank(self):
@@ -229,6 +236,7 @@ class FullHouse(FiveCardHand):
         return 'Full House of {}:\n{}'.format(triple_string, card_string)
 
 class FourOfAKind(FiveCardHand):
+    """Four of a kind hand."""
     _strength = 7
 
     def get_dominant_rank(self):
@@ -251,6 +259,7 @@ class FourOfAKind(FiveCardHand):
         return 'Four of a Kind {}:\n{}'.format(rank_string, card_string)
 
 class StraightFlush(Straight, Flush):
+    """Straight flush hand."""
     _strength = 8
 
     def get_cards_high_to_low(self, ordering=ranks.ORDERED_RANKS_ACE_HIGH):
@@ -295,7 +304,7 @@ def _is_straight_under_ordering(five_card_hand, ordering):
 
 def classify(hand, is_straight_function=is_straight_ace_low_high):
     """Takes a list of cards or a FiveCardHand and classifies it as one of the poker hands,
-    returning an object of that type containing the given cards.."""
+    returning an object of that type containing the given cards."""
     five_card_hand = FiveCardHand(hand)
     hand_is_straight = is_straight_function(five_card_hand)
     hand_is_flush = is_flush(five_card_hand)
