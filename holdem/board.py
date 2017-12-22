@@ -11,6 +11,7 @@ class Board(object):
 
     @property
     def flop(self):
+        """Get the flop."""
         return self._flop
 
     @flop.setter
@@ -19,6 +20,7 @@ class Board(object):
 
     @property
     def turn(self):
+        """Get the turn."""
         return self._turn
 
     @turn.setter
@@ -30,6 +32,7 @@ class Board(object):
 
     @property
     def river(self):
+        """Get the river."""
         return self._river
 
     @river.setter
@@ -41,14 +44,17 @@ class Board(object):
 
     @property
     def discard_pile(self):
+        """Get the discard pile."""
         return self._discard_pile
 
     @property
     def community_cards(self):
+        """Get the community cards."""
         all_cards = self._flop + self._turn + self._river
         return [card for card in all_cards
                 if card is not None]
 
     @property
     def empty(self):
+        """Return true if the board is empty."""
         return self.community_cards == []
