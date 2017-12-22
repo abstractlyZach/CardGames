@@ -4,16 +4,20 @@ from . import suits
 
 
 class Card(object):
+    """Abstract class for cards."""
     @property
     def name(self):
+        """Get name."""
         return self._name
 
     @property
     def text(self):
+        """Get text."""
         return self._text
 
     @property
     def flavor_text(self):
+        """Get flavor text."""
         return self._flavor_text
 
     def __repr__(self):
@@ -21,6 +25,7 @@ class Card(object):
 
 
 class StandardPlayingCard(Card):
+    """"Standard French playing card."""
     def __init__(self, rank, suit):
         self._rank = str(rank).capitalize()
         self._suit = suit.rstrip('s').capitalize() # allows (Ace, Spade) and (Ace, Spades)
@@ -54,8 +59,10 @@ class StandardPlayingCard(Card):
 
     @property
     def rank(self):
+        """Get rank."""
         return self._rank
 
     @property
     def suit(self):
+        """Get suit."""
         return self._suit
