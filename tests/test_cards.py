@@ -1,46 +1,46 @@
 import pytest
 
-from cards import cards
+from cards import playing_cards
 from cards import exceptions
 from cards import ranks
 from cards import suits
 
 class TestCards(object):
     def test_init(self):
-        cards.StandardPlayingCard('Ace', 'Spade')
+        playing_cards.StandardPlayingCard('Ace', 'Spade')
 
     def test_bad_suit_raises_exception(self):
         with pytest.raises(exceptions.IllegalSuitException):
-            cards.StandardPlayingCard('ace', 'bunnies')
+            playing_cards.StandardPlayingCard('ace', 'bunnies')
 
     def test_bad_rank_raises_exception(self):
         with pytest.raises(exceptions.IllegalRankException):
-            cards.StandardPlayingCard('potato', 'spades')
+            playing_cards.StandardPlayingCard('potato', 'spades')
 
     def test_rank(self):
-        ace = cards.StandardPlayingCard('Ace', 'Spade')
+        ace = playing_cards.StandardPlayingCard('Ace', 'Spade')
         assert ace.rank == 'Ace'
 
     def test_suit(self):
-        ace = cards.StandardPlayingCard('Ace', 'Spade')
+        ace = playing_cards.StandardPlayingCard('Ace', 'Spade')
         assert ace.suit == 'Spade'
 
     def test_text(self):
-        ace = cards.StandardPlayingCard('Ace', 'Spade')
+        ace = playing_cards.StandardPlayingCard('Ace', 'Spade')
         assert ace.name == 'Ace of Spades'
 
     def test_card_identity_property(self):
-        king = cards.StandardPlayingCard('King', 'diamonds')
+        king = playing_cards.StandardPlayingCard('King', 'diamonds')
         assert king == king
 
     def test_same_cards_equal(self):
-        seven = cards.StandardPlayingCard(7, 'Clover')
-        seven_2 = cards.StandardPlayingCard(7, 'Clover')
+        seven = playing_cards.StandardPlayingCard(7, 'Clover')
+        seven_2 = playing_cards.StandardPlayingCard(7, 'Clover')
         assert seven == seven_2
 
     def test_different_cards_unequal(self):
-        queen = cards.StandardPlayingCard('queen', 'hearts')
-        other_cards = [cards.StandardPlayingCard(rank, suit)
+        queen = playing_cards.StandardPlayingCard('queen', 'hearts')
+        other_cards = [playing_cards.StandardPlayingCard(rank, suit)
                        for rank in ranks.get_all_ranks()
                        for suit in suits.get_all_suits()]
         other_cards.remove(queen)

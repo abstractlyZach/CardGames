@@ -1,6 +1,6 @@
 import random
 
-from . import cards
+from . import playing_cards
 from . import exceptions
 from . import ranks
 from . import suits
@@ -59,4 +59,4 @@ class StandardPlayingCardDeck(Deck):
         super().__init__()
         for rank in ranks.get_all_ranks():
             for suit in suits.get_all_suits():
-                self._cards.append(cards.StandardPlayingCard(rank, suit))
+                self._cards.append(playing_cards.StandardPlayingCard(rank, suit))

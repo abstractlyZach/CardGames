@@ -1,6 +1,6 @@
 import pytest
 
-from cards import cards
+from cards import playing_cards
 from cards import exceptions
 from cards import poker_hands
 from cards import ranks
@@ -8,78 +8,78 @@ from cards import suits
 
 @pytest.fixture
 def royal_flush_diamonds():
-    ace_diamonds = cards.StandardPlayingCard(ranks.ACE, suits.DIAMOND)
-    king_diamonds = cards.StandardPlayingCard(ranks.KING, suits.DIAMOND)
-    queen_diamonds = cards.StandardPlayingCard(ranks.QUEEN, suits.DIAMOND)
-    jack_diamonds = cards.StandardPlayingCard(ranks.JACK, suits.DIAMOND)
-    ten_diamonds = cards.StandardPlayingCard(ranks.TEN, suits.DIAMOND)
+    ace_diamonds = playing_cards.StandardPlayingCard(ranks.ACE, suits.DIAMOND)
+    king_diamonds = playing_cards.StandardPlayingCard(ranks.KING, suits.DIAMOND)
+    queen_diamonds = playing_cards.StandardPlayingCard(ranks.QUEEN, suits.DIAMOND)
+    jack_diamonds = playing_cards.StandardPlayingCard(ranks.JACK, suits.DIAMOND)
+    ten_diamonds = playing_cards.StandardPlayingCard(ranks.TEN, suits.DIAMOND)
     hand = poker_hands.FiveCardHand([ace_diamonds, king_diamonds, queen_diamonds, jack_diamonds, ten_diamonds])
     return hand
 
 @pytest.fixture
 def four_of_a_kind_9s():
-    hand = [cards.StandardPlayingCard(ranks.NINE, suit) for suit in suits.get_all_suits()]
-    hand.append(cards.StandardPlayingCard(ranks.FOUR, suits.CLOVER))
+    hand = [playing_cards.StandardPlayingCard(ranks.NINE, suit) for suit in suits.get_all_suits()]
+    hand.append(playing_cards.StandardPlayingCard(ranks.FOUR, suits.CLOVER))
     return poker_hands.FiveCardHand(hand)
 
 @pytest.fixture
 def full_house_queens():
-    hand = [cards.StandardPlayingCard(ranks.QUEEN, suit) for suit in [suits.DIAMOND, suits.CLOVER, suits.SPADE]]
-    hand += [cards.StandardPlayingCard(ranks.SEVEN, suit) for suit in [suits.HEART, suits.SPADE]]
+    hand = [playing_cards.StandardPlayingCard(ranks.QUEEN, suit) for suit in [suits.DIAMOND, suits.CLOVER, suits.SPADE]]
+    hand += [playing_cards.StandardPlayingCard(ranks.SEVEN, suit) for suit in [suits.HEART, suits.SPADE]]
     return poker_hands.FullHouse(hand)
 
 @pytest.fixture
 def flush_spades():
-    hand = [cards.StandardPlayingCard(rank, suits.SPADE)
+    hand = [playing_cards.StandardPlayingCard(rank, suits.SPADE)
             for rank in [ranks.SEVEN, ranks.QUEEN, ranks.ACE, ranks.TWO, ranks.TEN]]
     return poker_hands.Flush(hand)
 
 @pytest.fixture
 def straight():
-    hand = [cards.StandardPlayingCard(rank, suits.HEART) for rank in ranks.get_all_ranks()[3:7]]
-    hand.append(cards.StandardPlayingCard(ranks.NINE, suits.CLOVER))
+    hand = [playing_cards.StandardPlayingCard(rank, suits.HEART) for rank in ranks.get_all_ranks()[3:7]]
+    hand.append(playing_cards.StandardPlayingCard(ranks.NINE, suits.CLOVER))
     return poker_hands.Straight(hand)
 
 @pytest.fixture
 def three_of_a_kind():
-   hand = [cards.StandardPlayingCard(ranks.SIX, suit) for suit in [suits.SPADE, suits.HEART, suits.DIAMOND]]
-   hand += [cards.StandardPlayingCard(ranks.NINE, suits.CLOVER), cards.StandardPlayingCard(ranks.TWO, suits.SPADE)]
+   hand = [playing_cards.StandardPlayingCard(ranks.SIX, suit) for suit in [suits.SPADE, suits.HEART, suits.DIAMOND]]
+   hand += [playing_cards.StandardPlayingCard(ranks.NINE, suits.CLOVER), playing_cards.StandardPlayingCard(ranks.TWO, suits.SPADE)]
    return poker_hands.ThreeOfAKind(hand)
 
 @pytest.fixture
 def two_pair():
-    hand = [cards.StandardPlayingCard(ranks.THREE, suit) for suit in suits.get_black_suits()]
-    hand += [cards.StandardPlayingCard(ranks.FIVE, suit) for suit in suits.get_red_suits()]
-    hand += [cards.StandardPlayingCard(ranks.QUEEN, suits.DIAMOND)]
+    hand = [playing_cards.StandardPlayingCard(ranks.THREE, suit) for suit in suits.get_black_suits()]
+    hand += [playing_cards.StandardPlayingCard(ranks.FIVE, suit) for suit in suits.get_red_suits()]
+    hand += [playing_cards.StandardPlayingCard(ranks.QUEEN, suits.DIAMOND)]
     return poker_hands.TwoPair(hand)
 
 @pytest.fixture
 def one_pair():
-    hand = [cards.StandardPlayingCard(ranks.TWO, suit) for suit in suits.get_black_suits()]
-    hand += [cards.StandardPlayingCard(rank, suits.CLOVER) for rank in [ranks.QUEEN, ranks.FIVE, ranks.TEN]]
+    hand = [playing_cards.StandardPlayingCard(ranks.TWO, suit) for suit in suits.get_black_suits()]
+    hand += [playing_cards.StandardPlayingCard(rank, suits.CLOVER) for rank in [ranks.QUEEN, ranks.FIVE, ranks.TEN]]
     return poker_hands.OnePair(hand)
 
 @pytest.fixture
 def high_card():
-    hand = [cards.StandardPlayingCard(rank, suits.DIAMOND) for rank in ranks.get_all_ranks()[:4]]
-    hand += [cards.StandardPlayingCard(ranks.TEN, suits.CLOVER)]
+    hand = [playing_cards.StandardPlayingCard(rank, suits.DIAMOND) for rank in ranks.get_all_ranks()[:4]]
+    hand += [playing_cards.StandardPlayingCard(ranks.TEN, suits.CLOVER)]
     return poker_hands.HighCard(hand)
 
 @pytest.fixture
 def straight_ace_low():
-    hand = [cards.StandardPlayingCard(rank, suits.CLOVER) for rank in [ranks.ACE, ranks.TWO, ranks.THREE, ranks.FOUR]]
-    hand.append(cards.StandardPlayingCard(ranks.FIVE, suits.DIAMOND))
+    hand = [playing_cards.StandardPlayingCard(rank, suits.CLOVER) for rank in [ranks.ACE, ranks.TWO, ranks.THREE, ranks.FOUR]]
+    hand.append(playing_cards.StandardPlayingCard(ranks.FIVE, suits.DIAMOND))
     return poker_hands.FiveCardHand(hand)
 
 @pytest.fixture
 def straight_ace_high():
-    hand = [cards.StandardPlayingCard(rank, suits.CLOVER) for rank in [ranks.TEN, ranks.JACK, ranks.QUEEN, ranks.KING]]
-    hand.append(cards.StandardPlayingCard(ranks.ACE, suits.DIAMOND))
+    hand = [playing_cards.StandardPlayingCard(rank, suits.CLOVER) for rank in [ranks.TEN, ranks.JACK, ranks.QUEEN, ranks.KING]]
+    hand.append(playing_cards.StandardPlayingCard(ranks.ACE, suits.DIAMOND))
     return poker_hands.FiveCardHand(hand)
 
 @pytest.fixture
 def straight_flush_spades_5_high():
-    hand = [cards.StandardPlayingCard(rank, suits.SPADE)
+    hand = [playing_cards.StandardPlayingCard(rank, suits.SPADE)
             for rank in [ranks.ACE, ranks.TWO, ranks.THREE, ranks.FOUR, ranks.FIVE]]
     return poker_hands.classify(hand)
 
@@ -115,7 +115,7 @@ class TestFiveCardHand():
 
     def test_iterator(self, royal_flush_diamonds):
         ranks_to_expect = reversed([ranks.TEN, ranks.JACK, ranks.QUEEN, ranks.KING, ranks.ACE])
-        cards_to_expect = [cards.StandardPlayingCard(rank, suits.DIAMOND) for rank in ranks_to_expect]
+        cards_to_expect = [playing_cards.StandardPlayingCard(rank, suits.DIAMOND) for rank in ranks_to_expect]
         for expected_card, actual_card in zip(cards_to_expect, royal_flush_diamonds):
             assert expected_card == actual_card
 
@@ -236,7 +236,7 @@ class TestDominantRanks(object):
     def test_four_of_a_kind(self, four_of_a_kind_9s):
         four_of_a_kind_9s = poker_hands.classify(four_of_a_kind_9s)
         assert four_of_a_kind_9s.get_dominant_rank() == ranks.NINE
-        assert four_of_a_kind_9s.get_kicker() == cards.StandardPlayingCard(ranks.FOUR, suits.CLOVER)
+        assert four_of_a_kind_9s.get_kicker() == playing_cards.StandardPlayingCard(ranks.FOUR, suits.CLOVER)
 
     def test_full_house(self, full_house_queens):
         full_house_queens = poker_hands.classify(full_house_queens)

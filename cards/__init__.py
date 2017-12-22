@@ -1,2 +1,2 @@
-__all__ = ['exceptions', 'cards', 'deck', 'poker_hands', 'ranks', 'suits']
+__all__ = ['exceptions', 'playing_cards.py', 'deck', 'poker_hands', 'ranks', 'suits']
 
