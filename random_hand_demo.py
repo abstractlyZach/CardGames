@@ -1,3 +1,4 @@
+import cards.classify_hand
 from cards.deck import StandardPlayingCardDeck
 from cards import poker_hands
 
@@ -7,7 +8,7 @@ def main():
     while user_input.lower() != 'q':
         deck.shuffle()
         hand = [deck.draw() for i in range(5)]
-        hand = poker_hands.classify(hand)
+        hand = cards.classify_hand.classify(hand)
         print(hand)
         for card in hand:
             deck.insert_to_bottom(card)
