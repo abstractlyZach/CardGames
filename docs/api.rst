@@ -1,7 +1,8 @@
-.. _api:
+.. _cards_api:
 
-API Documentation
+cards API Documentation
 =================
+The cards package give a lot of the basic necessities for any card game.
 
 Deck
 -------------
@@ -30,3 +31,12 @@ Classify
 ----------
 .. automodule:: cards.classify_hand
     :members:
+
+
+
+Indices and tables
+==================
+
+* :ref:`genindex`
+* :ref:`modindex`
+* :ref:`search`

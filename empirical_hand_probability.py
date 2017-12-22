@@ -1,8 +1,7 @@
 from collections import defaultdict
 
-import cards.classify_hand
+from cards.classify_hand import classify
 from cards.deck import StandardPlayingCardDeck
-from cards import poker_hands
 
 poker_hand_counter = defaultdict(int)
 deck = StandardPlayingCardDeck()
@@ -11,7 +10,7 @@ hands_to_draw = 5000000
 
 for i in range(hands_to_draw):
     hand = [deck.draw() for card in range(5)]
-    poker_hand = cards.classify_hand.classify(hand)
+    poker_hand = classify(hand)
     poker_hand_counter[poker_hand.__class__.__name__] += 1
     for card in poker_hand:
         deck.insert_to_bottom(card)
