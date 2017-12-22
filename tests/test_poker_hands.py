@@ -1,6 +1,5 @@
 import pytest
 
-import cards.five_card_hand
 from cards import cards
 from cards import exceptions
 from cards import poker_hands
@@ -14,14 +13,14 @@ def royal_flush_diamonds():
     queen_diamonds = cards.StandardPlayingCard(ranks.QUEEN, suits.DIAMOND)
     jack_diamonds = cards.StandardPlayingCard(ranks.JACK, suits.DIAMOND)
     ten_diamonds = cards.StandardPlayingCard(ranks.TEN, suits.DIAMOND)
-    hand = cards.five_card_hand.FiveCardHand([ace_diamonds, king_diamonds, queen_diamonds, jack_diamonds, ten_diamonds])
+    hand = poker_hands.FiveCardHand([ace_diamonds, king_diamonds, queen_diamonds, jack_diamonds, ten_diamonds])
     return hand
 
 @pytest.fixture
 def four_of_a_kind_9s():
     hand = [cards.StandardPlayingCard(ranks.NINE, suit) for suit in suits.get_all_suits()]
     hand.append(cards.StandardPlayingCard(ranks.FOUR, suits.CLOVER))
-    return cards.five_card_hand.FiveCardHand(hand)
+    return poker_hands.FiveCardHand(hand)
 
 @pytest.fixture
 def full_house_queens():
@@ -70,13 +69,13 @@ def high_card():
 def straight_ace_low():
     hand = [cards.StandardPlayingCard(rank, suits.CLOVER) for rank in [ranks.ACE, ranks.TWO, ranks.THREE, ranks.FOUR]]
     hand.append(cards.StandardPlayingCard(ranks.FIVE, suits.DIAMOND))
-    return cards.five_card_hand.FiveCardHand(hand)
+    return poker_hands.FiveCardHand(hand)
 
 @pytest.fixture
 def straight_ace_high():
     hand = [cards.StandardPlayingCard(rank, suits.CLOVER) for rank in [ranks.TEN, ranks.JACK, ranks.QUEEN, ranks.KING]]
     hand.append(cards.StandardPlayingCard(ranks.ACE, suits.DIAMOND))
-    return cards.five_card_hand.FiveCardHand(hand)
+    return poker_hands.FiveCardHand(hand)
 
 @pytest.fixture
 def straight_flush_spades_5_high():
@@ -91,11 +90,11 @@ class TestFiveCardHand():
 
     def test_raises_exception_on_4_items(self):
         with pytest.raises(exceptions.NotEnoughCardsException):
-            cards.five_card_hand.FiveCardHand([1, 2, 3, 4])
+            poker_hands.FiveCardHand([1,2,3,4])
 
     def test_raises_exception_on_6_items(self):
         with pytest.raises(exceptions.TooManyCardsException):
-            cards.five_card_hand.FiveCardHand([1, 2, 3, 4, 5, 6])
+            poker_hands.FiveCardHand([1,2,3,4,5,6])
 
     def test_suit_counts_royal_flush(self, royal_flush_diamonds):
         assert royal_flush_diamonds.suit_counts == {suits.DIAMOND: 5}
