@@ -3,6 +3,7 @@ import pytest
 from cards.deck import StandardPlayingCardDeck
 from holdem.board import Board
 from holdem.dealer import Dealer
+from holdem.exceptions import BoardFullException
 
 
 @pytest.fixture
@@ -43,7 +44,7 @@ def test_turn(dealer_board_deck):
     assert burned_card in discard
     assert board.turn == turn_card
 
-def test_turn(dealer_board_deck):
+def test_river(dealer_board_deck):
     dealer, board, deck = dealer_board_deck
     discard = board.discard_pile
     dealer.deal()
@@ -57,5 +58,12 @@ def test_turn(dealer_board_deck):
     assert burned_card in discard
     assert board.river == river_card
 
+def test_raise_exception_after_third_deal(dealer_board_deck):
+    dealer, _, _ = dealer_board_deck
+    for i in range(3):
+        dealer.deal()
+    for i in range(5):
+        with pytest.raises(BoardFullException):
+            dealer.deal()
 
 

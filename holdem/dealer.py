@@ -1,3 +1,5 @@
+from . import exceptions
+
 class Dealer(object):
     def __init__(self, board, deck):
         self._board = board
@@ -10,6 +12,8 @@ class Dealer(object):
             self._deal_turn()
         elif not self._board.river:
             self._deal_river()
+        else:
+            raise exceptions.BoardFullException
 
     def _deal_flop(self):
         self._burn_card()
