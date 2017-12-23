@@ -49,6 +49,9 @@ class Deck(object):
         for card in self._cards:
             yield card
 
+    def __len__(self):
+        return self.num_cards
+
     @property
     def num_cards(self):
         """Return the number of cards in the deck."""
