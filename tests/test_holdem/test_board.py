@@ -33,7 +33,7 @@ def test_turn(empty_board, draw_deck):
     board.flop = flop
     turn = draw_deck.draw()
     board.turn = turn
-    assert board.turn == [turn]
+    assert board.turn == turn
     assert board.community_cards == flop + [turn]
 
 def test_river(empty_board, draw_deck):
@@ -44,6 +44,6 @@ def test_river(empty_board, draw_deck):
     board.turn = turn
     river = draw_deck.draw()
     board.river = river
-    assert board.river == [river]
+    assert board.river == river
     assert board.community_cards == flop + [turn] + [river]
 

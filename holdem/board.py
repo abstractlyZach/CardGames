@@ -25,10 +25,7 @@ class Board(object):
 
     @turn.setter
     def turn(self, turn):
-        if not isinstance(turn, list):
-            self._turn = [turn]
-        else:
-            self._turn = turn
+        self._turn = turn
 
     @property
     def river(self):
@@ -37,10 +34,7 @@ class Board(object):
 
     @river.setter
     def river(self, river):
-        if not isinstance(river, list):
-            self._river = [river]
-        else:
-            self._river = river
+        self._river = river
 
     @property
     def discard_pile(self):
@@ -50,9 +44,9 @@ class Board(object):
     @property
     def community_cards(self):
         """Get the community cards."""
-        all_cards = self._flop + self._turn + self._river
+        all_cards = self._flop + [self._turn] + [self._river]
         return [card for card in all_cards
-                if card is not None]
+                if card] # if card exists (is not an empty list)
 
     @property
     def empty(self):

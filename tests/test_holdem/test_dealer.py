@@ -41,7 +41,7 @@ def test_turn(dealer_board_deck):
     dealer.deal()
     assert len(discard) == 2
     assert burned_card in discard
-    assert board.turn == [turn_card]
+    assert board.turn == turn_card
 
 def test_turn(dealer_board_deck):
     dealer, board, deck = dealer_board_deck
@@ -55,7 +55,7 @@ def test_turn(dealer_board_deck):
     dealer.deal()
     assert len(discard) == 3
     assert burned_card in discard
-    assert board.river == [river_card]
+    assert board.river == river_card
 
 
 
