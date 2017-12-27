@@ -46,7 +46,7 @@ source_suffix = '.rst'
 master_doc = 'index'
 
 # General information about the project.
-project = 'cards'
+project = 'CardGames'
 copyright = '2017, Zach Lee'
 author = 'Zach Lee'
 
