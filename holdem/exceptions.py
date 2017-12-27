@@ -3,3 +3,12 @@ class BoardFullException(Exception):
 
 class TooManyCardsException(Exception):
     pass
+
+class NoPlayersException(Exception):
+    pass
+
+class PlayerNotFoundException(Exception):
+    pass
+
+class IllegalBetException(Exception):
+    pass
