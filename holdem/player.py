@@ -5,6 +5,7 @@ class Player(object):
         self._name = name
         self._cards = []
         self._chip_count = 0
+        self._bet_set = False
 
     def deal_hole_card(self, card):
         """Deal a hole card to the player."""
@@ -32,6 +33,26 @@ class Player(object):
         else:
             self._chip_count -= blind_amount
             return blind_amount
+
+    def bet(self, amount):
+        """Set this player's betting amount to be returned when the bet
+        collector collects."""
+        if self._chip_count <= amount:
+            exception_message = "{} doesn't have enough chips to " \
+                                "bet {}".format(self.name, amount)
+            raise exceptions.NotEnoughChipsException(exception_message)
+        else:
+            self._bet_set = True
+            self._bet_to_collect = amount
+
+    def collect_bet(self):
+        if self._bet_set:
+            self._bet_set = False
+            return self._bet_to_collect
+        else:
+            raise exceptions.BetNotSetException("{} has not set a bet "
+                                                "yet.".format(self))
+
 
     @property
     def name(self):

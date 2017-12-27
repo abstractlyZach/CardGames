@@ -9,7 +9,7 @@ class BetCollector(object):
             raise exceptions.NoPlayersException
         self._players = players
         self.set_dealer(random.choice(self._players))
-        self._current_bettor = self.small_blind
+        self._current_bettor_index = self.small_blind
         self._table_bets = 0
 
     def set_dealer(self, target_player):
@@ -17,7 +17,7 @@ class BetCollector(object):
         self._try_to_make_player_dealer(target_player)
         self._small_blind_index = self._next_player(self._button)
         self._big_blind_index = self._next_player(self._small_blind_index)
-        self._current_bettor = self._small_blind_index
+        self._current_bettor_index = self._small_blind_index
 
     def _try_to_make_player_dealer(self, target_player):
         self._button = None
@@ -56,10 +56,14 @@ class BetCollector(object):
         self._table_bets += self.big_blind.collect_blind(self._buy_in)
         self._table_bets += self.small_blind.collect_blind(math.floor(
             self._buy_in / 2))
-        self._current_bettor = self._next_player(self._big_blind_index)
+        self._current_bettor_index = self._next_player(self._big_blind_index)
+        self._current_bet = self._buy_in
 
-    # def collect_next_player(self):
-    #     bet = self._players[self._current_bettor].collect()
+    def collect_next_player(self):
+        """Collect bets for each player still in the game."""
+        bet = self._players[self._current_bettor_index].collect_bet()
+        self._table_bets += bet
+        self._current_bettor_index = self._next_player(self._current_bettor_index)
 
 
 

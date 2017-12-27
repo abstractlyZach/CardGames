@@ -12,3 +12,9 @@ class PlayerNotFoundException(Exception):
 
 class IllegalBetException(Exception):
     pass
+
+class NotEnoughChipsException(Exception):
+    pass
+
+class BetNotSetException(Exception):
+    pass

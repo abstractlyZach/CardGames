@@ -45,8 +45,48 @@ def test_blinds_buy_in(collector_four_players):
     collector.collect_blinds()
     assert collector.table_bets == 15
 
+def test_blinds_have_7_chips(collector_four_players):
+    collector, players = collector_four_players
+    collector.set_dealer(players[0])
+    collector.buy_in = 10
+    for player in players:
+        player.award_chips(7)
+    collector.collect_blinds()
+    assert collector.table_bets == 12
 
+def test_first_player_forgets_to_set_bet(collector_four_players):
+    collector, players = collector_four_players
+    collector.set_dealer(players[0])
+    collector.buy_in = 10
+    for player in players:
+        player.award_chips(15)
+    collector.collect_blinds()
+    with pytest.raises(exceptions.BetNotSetException):
+        collector.collect_next_player()
 
+def test_first_player_buys_in(collector_four_players):
+    collector, players = collector_four_players
+    collector.set_dealer(players[0])
+    collector.buy_in = 10
+    for player in players:
+        player.award_chips(15)
+    collector.collect_blinds()
+    players[3].bet(10)
+    collector.collect_next_player()
+    assert collector.table_bets == 25
 
 def test_everyone_buys_in(collector_four_players):
-    pass
+    collector, players = collector_four_players
+    collector.set_dealer(players[0])
+    collector.buy_in = 10
+    for player in players:
+        player.award_chips(15)
+    collector.collect_blinds()
+    for i in (3, 0):
+        players[i].bet(10)
+    players[1].bet(5)
+    players[2].bet(0)
+    for i in range(4):
+        collector.collect_next_player()
+    assert collector.table_bets == 40
+
