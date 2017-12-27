@@ -19,6 +19,7 @@ class Player(object):
         return hole_cards
 
     def award_chips(self, chips):
+        """Award chips to this player."""
         self._chip_count += chips
 
     @property
