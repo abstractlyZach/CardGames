@@ -4,10 +4,7 @@ class Player(object):
     def __init__(self, name):
         self._name = name
         self._cards = []
-
-    @property
-    def name(self):
-        return self._name
+        self._chip_count = 0
 
     def deal_hole_card(self, card):
         """Deal a hole card to the player"""
@@ -20,4 +17,15 @@ class Player(object):
         hole_cards = self._cards
         self._cards = []
         return hole_cards
+
+    def award_chips(self, chips):
+        self._chip_count += chips
+
+    @property
+    def name(self):
+        return self._name
+
+    @property
+    def chip_count(self):
+        return self._chip_count
 
