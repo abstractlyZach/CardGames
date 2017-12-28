@@ -62,6 +62,10 @@ class Player(object):
         self._reset_wager()
         return wager
 
+    def fold(self):
+        """Fold the current hand."""
+        self._wager.fold()
+
     @property
     def name(self):
         return self._name

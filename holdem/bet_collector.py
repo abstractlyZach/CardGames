@@ -74,6 +74,8 @@ class BetCollector(object):
         """Collect bets for each player still in the game."""
         player = self._players[self._current_bettor_index]
         wager = player.check_wager()
+        if player._wager.owner_folded:
+            return
         if wager < self._bet_to_match and not player.all_in:
             raise exceptions.BetTooLowException
         self._current_bettor_index = self._next_player(self._current_bettor_index)
@@ -114,6 +116,7 @@ class BetCollector(object):
             latest_pot = self._get_incomplete_pot()
             for i in range(len(self._collected_wagers)):
                 latest_pot.add_chips(wager.total_bet)
+                latest_pot.add_player(wager.owner_name)
             self._deduct_from_all_wagers(wager.total_bet)
             latest_pot.complete()
 
@@ -125,6 +128,7 @@ class BetCollector(object):
         latest_pot = self._get_incomplete_pot()
         for wager in self._collected_wagers:
             latest_pot.add_chips(wager.total_bet)
+            latest_pot.add_player(wager.owner_name)
 
 
 

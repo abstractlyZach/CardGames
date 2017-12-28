@@ -143,5 +143,43 @@ def test_pot_where_everyone_buys_in_first_round(everyone_buys_in_for_flop):
     collector, players = everyone_buys_in_for_flop
     collector.collect_all_bets()
     assert len(collector.pots) == 1
+    assert collector.pots[0].size == 40
+
+def test_one_person_folds_before_betting(collector_four_players):
+    collector, players = collector_four_players
+    for player in players:
+        player.award_chips(15)
+    collector.get_blind_wagers()
+    players[3].fold()
+    for i in range(3):
+        player = players[i]
+        amount_to_buy_in = collector.buy_in - player.check_wager()
+        players[i].bet(amount_to_buy_in)
+    for i in range(4):
+        collector.ask_next_player_for_wager()
+    collector.collect_all_bets()
+    assert len(collector.pots) == 1
+    assert collector.pots[0].size == 30
+
+def test_one_player_bets_high_and_everyone_folds(collector_four_players):
+    collector, players = collector_four_players
+    for player in players:
+        player.award_chips(15)
+    collector.get_blind_wagers()
+    players[3].bet(15)
+    for player in players[:3]:
+        player.fold()
+    for i in range(4):
+        collector.ask_next_player_for_wager()
+    collector.collect_all_bets()
+    assert len(collector.pots) == 2
+    assert collector.pots[0].size == 30
+    assert collector.pots[1].size == 0
+
+
+
+
+
+
 
 
