@@ -21,3 +21,6 @@ class BetNotSetException(Exception):
 
 class BetTooLowException(Exception):
     pass
+
+class WagerDecreaseException(Exception):
+    pass
