@@ -110,12 +110,12 @@ def test_blinds_poor_everyone_else_buys_in(collector_four_players):
 def test_everyone_buys_in_but_one_person_doesnt_bet_enough(
         collector_four_players):
     collector, players = collector_four_players
-    # for player in players:
-    #     player.award_chips(15)
-    # collector.collect_blinds()
-    # players[3].bet(4)
-    # with pytest.raises(exceptions.BetTooLowException):
-    #     collector.collect_next_player()
+    for player in players:
+        player.award_chips(15)
+    collector.get_blind_wagers()
+    players[3].bet(4)
+    with pytest.raises(exceptions.BetTooLowException):
+        collector.ask_next_player_for_wager()
 
 
 
