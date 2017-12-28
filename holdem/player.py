@@ -26,7 +26,7 @@ class Player(object):
         self._chip_count += chips
 
     def _reset_wager(self):
-        self._wager = wager.Wager()
+        self._wager = wager.Wager(self.name)
 
     def set_blind_wager(self, blind_amount):
         """Get a blind bet. If it forces a player to all-in, they'll give

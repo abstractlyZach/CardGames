@@ -24,3 +24,6 @@ class BetTooLowException(Exception):
 
 class WagerDecreaseException(Exception):
     pass
+
+class PotCompleteException(Exception):
+    pass

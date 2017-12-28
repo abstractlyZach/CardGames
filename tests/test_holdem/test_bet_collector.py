@@ -13,8 +13,26 @@ def collector_four_players():
     collector.buy_in = 10
     return collector, players
 
+@pytest.fixture
+def everyone_buys_in_for_flop():
+    players = [player.Player('Player {}'.format(i)) for i in range(4)]
+    collector = bet_collector.BetCollector(players)
+    collector.set_dealer(players[0])
+    collector.buy_in = 10
+    for player_ in players:
+        player_.award_chips(15)
+    collector.get_blind_wagers()
+    for player_ in players:
+        amount_to_bet = collector.buy_in - player_.check_wager()
+        player_.bet(amount_to_bet)
+    for i in range(4):
+        collector.ask_next_player_for_wager()
+    return collector, players
+
+
 def test_init():
-    collector = bet_collector.BetCollector(['a'])
+    temp_player = player.Player('hi')
+    collector = bet_collector.BetCollector([temp_player])
 
 def test_raises_exception_with_no_players_on_init():
     with pytest.raises(exceptions.NoPlayersException):
@@ -117,6 +135,13 @@ def test_everyone_buys_in_but_one_person_doesnt_bet_enough(
     with pytest.raises(exceptions.BetTooLowException):
         collector.ask_next_player_for_wager()
 
+def test_only_main_pot_at_beginning_of_game(collector_four_players):
+    collector, players = collector_four_players
+    assert len(collector.pots) == 1
 
+def test_pot_where_everyone_buys_in_first_round(everyone_buys_in_for_flop):
+    collector, players = everyone_buys_in_for_flop
+    collector.collect_all_bets()
+    assert len(collector.pots) == 1
 
 
