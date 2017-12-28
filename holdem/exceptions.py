@@ -18,3 +18,6 @@ class NotEnoughChipsException(Exception):
 
 class BetNotSetException(Exception):
     pass
+
+class BetTooLowException(Exception):
+    pass

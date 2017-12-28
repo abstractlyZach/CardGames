@@ -8,7 +8,10 @@ from holdem import exceptions
 @pytest.fixture
 def collector_four_players():
     players = [player.Player('Player {}'.format(i)) for i in range(4)]
-    return bet_collector.BetCollector(players), players
+    collector = bet_collector.BetCollector(players)
+    collector.set_dealer(players[0])
+    collector.buy_in = 10
+    return collector, players
 
 def test_init():
     collector = bet_collector.BetCollector(['a'])
@@ -89,4 +92,31 @@ def test_everyone_buys_in(collector_four_players):
     for i in range(4):
         collector.collect_next_player()
     assert collector.table_bets == 40
+
+def test_blinds_poor_everyone_else_buys_in(collector_four_players):
+    collector, players = collector_four_players
+    collector.set_dealer(players[0])
+    collector.buy_in = 10
+    for i in (0, 1, 3):
+        players[i].award_chips(15)
+    players[2].award_chips(4)
+    collector.collect_blinds()
+    players[3].bet(10)
+    players[0].bet(10)
+    for i in range(2):
+        collector.collect_next_player()
+    assert collector.table_bets == 29
+
+def test_everyone_buys_in_but_one_person_doesnt_bet_enough(
+        collector_four_players):
+    collector, players = collector_four_players
+    for player in players:
+        player.award_chips(15)
+    collector.collect_blinds()
+    players[3].bet(4)
+    with pytest.raises(exceptions.BetTooLowException):
+        collector.collect_next_player()
+
+
+
 

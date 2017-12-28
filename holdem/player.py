@@ -53,7 +53,6 @@ class Player(object):
             raise exceptions.BetNotSetException("{} has not set a bet "
                                                 "yet.".format(self))
 
-
     @property
     def name(self):
         return self._name
@@ -61,6 +60,10 @@ class Player(object):
     @property
     def chip_count(self):
         return self._chip_count
+
+    @property
+    def all_in(self):
+        return self._chip_count <= 0
 
     def __eq__(self, other):
         if isinstance(other, Player):
