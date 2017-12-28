@@ -7,10 +7,8 @@ class Wager(object):
         self._all_in = False
 
     def bet(self, amount):
-        if amount < self._total_bet:
-            raise exceptions.WagerDecreaseException
-        else:
-            self._total_bet = amount
+        """Add chips to the current wager."""
+        self._total_bet += amount
 
     def set_all_in(self):
         self._all_in = True

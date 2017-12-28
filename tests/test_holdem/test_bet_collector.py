@@ -36,7 +36,7 @@ def test_blinds_broke_players(collector_four_players):
     collector, players = collector_four_players
     collector.set_dealer(players[0])
     collector.buy_in = 10
-    collector.collect_blinds()
+    collector.get_blind_wagers()
     assert collector.table_bets == 0
 
 def test_blinds_buy_in(collector_four_players):
@@ -45,7 +45,7 @@ def test_blinds_buy_in(collector_four_players):
     collector.buy_in = 10
     for player in players:
         player.award_chips(100)
-    collector.collect_blinds()
+    collector.get_blind_wagers()
     assert collector.table_bets == 15
 
 def test_blinds_have_7_chips(collector_four_players):
@@ -54,7 +54,7 @@ def test_blinds_have_7_chips(collector_four_players):
     collector.buy_in = 10
     for player in players:
         player.award_chips(7)
-    collector.collect_blinds()
+    collector.get_blind_wagers()
     assert collector.table_bets == 12
 
 def test_first_player_forgets_to_set_bet(collector_four_players):
@@ -63,9 +63,9 @@ def test_first_player_forgets_to_set_bet(collector_four_players):
     collector.buy_in = 10
     for player in players:
         player.award_chips(15)
-    collector.collect_blinds()
-    with pytest.raises(exceptions.BetNotSetException):
-        collector.collect_next_player()
+    collector.get_blind_wagers()
+    with pytest.raises(exceptions.BetTooLowException):
+        collector.ask_next_player_for_wager()
 
 def test_first_player_buys_in(collector_four_players):
     collector, players = collector_four_players
@@ -73,9 +73,9 @@ def test_first_player_buys_in(collector_four_players):
     collector.buy_in = 10
     for player in players:
         player.award_chips(15)
-    collector.collect_blinds()
+    collector.get_blind_wagers()
     players[3].bet(10)
-    collector.collect_next_player()
+    collector.ask_next_player_for_wager()
     assert collector.table_bets == 25
 
 def test_everyone_buys_in(collector_four_players):
@@ -84,13 +84,13 @@ def test_everyone_buys_in(collector_four_players):
     collector.buy_in = 10
     for player in players:
         player.award_chips(15)
-    collector.collect_blinds()
+    collector.get_blind_wagers()
     for i in (3, 0):
         players[i].bet(10)
     players[1].bet(5)
     players[2].bet(0)
     for i in range(4):
-        collector.collect_next_player()
+        collector.ask_next_player_for_wager()
     assert collector.table_bets == 40
 
 def test_blinds_poor_everyone_else_buys_in(collector_four_players):
@@ -100,11 +100,11 @@ def test_blinds_poor_everyone_else_buys_in(collector_four_players):
     for i in (0, 1, 3):
         players[i].award_chips(15)
     players[2].award_chips(4)
-    collector.collect_blinds()
+    collector.get_blind_wagers()
     players[3].bet(10)
     players[0].bet(10)
     for i in range(2):
-        collector.collect_next_player()
+        collector.ask_next_player_for_wager()
     assert collector.table_bets == 29
 
 def test_everyone_buys_in_but_one_person_doesnt_bet_enough(

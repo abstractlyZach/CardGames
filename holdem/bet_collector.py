@@ -48,21 +48,22 @@ class BetCollector(object):
 
     @property
     def table_bets(self):
-        return self._table_bets
+        return sum([player.check_wager() for player in self._players])
 
-    def collect_blinds(self):
+    def get_blind_wagers(self):
         """Collect the blind amounts and then set current bettor to the left
         of big blind."""
-        self._table_bets += self.big_blind.collect_blind(self._buy_in)
-        self._table_bets += self.small_blind.collect_blind(math.floor(
-            self._buy_in / 2))
+        self.big_blind.set_blind_wager(self._buy_in)
+        self.small_blind.set_blind_wager(math.floor(self._buy_in / 2))
         self._current_bettor_index = self._next_player(self._big_blind_index)
         self._current_bet = self._buy_in
 
-    def collect_next_player(self):
+    def ask_next_player_for_wager(self):
         """Collect bets for each player still in the game."""
-        bet = self._players[self._current_bettor_index].collect_bet()
-        self._table_bets += bet
+        player = self._players[self._current_bettor_index]
+        wager = player.check_wager()
+        if wager < self._current_bet and not player.all_in:
+            raise exceptions.BetTooLowException
         self._current_bettor_index = self._next_player(self._current_bettor_index)
 
 

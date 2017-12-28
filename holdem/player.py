@@ -1,4 +1,5 @@
 from . import exceptions
+from . import wager
 
 class Player(object):
     def __init__(self, name):
@@ -6,6 +7,7 @@ class Player(object):
         self._cards = []
         self._chip_count = 0
         self._bet_set = False
+        self._reset_wager()
 
     def deal_hole_card(self, card):
         """Deal a hole card to the player."""
@@ -23,16 +25,19 @@ class Player(object):
         """Award chips to this player."""
         self._chip_count += chips
 
-    def collect_blind(self, blind_amount):
+    def _reset_wager(self):
+        self._wager = wager.Wager()
+
+    def set_blind_wager(self, blind_amount):
         """Get a blind bet. If it forces a player to all-in, they'll give
         less than the blind amount."""
         if self._chip_count <= blind_amount:
-            blind_bet = self._chip_count
+            self._wager.bet(self._chip_count)
+            self._wager.set_all_in()
             self._chip_count = 0
-            return blind_bet
         else:
+            self._wager.bet(blind_amount)
             self._chip_count -= blind_amount
-            return blind_amount
 
     def bet(self, amount):
         """Set this player's betting amount to be returned when the bet
@@ -42,16 +47,18 @@ class Player(object):
                                 "bet {}".format(self.name, amount)
             raise exceptions.NotEnoughChipsException(exception_message)
         else:
-            self._bet_set = True
-            self._bet_to_collect = amount
+            self._wager.bet(amount)
 
-    def collect_bet(self):
-        if self._bet_set:
-            self._bet_set = False
-            return self._bet_to_collect
-        else:
-            raise exceptions.BetNotSetException("{} has not set a bet "
-                                                "yet.".format(self))
+    def check_wager(self):
+        """Return the amount of the player's current wager."""
+        return self._wager.total_bet
+
+    def collect_wager(self):
+        """Collect this player's wager. Should be done at the end of every
+        round of betting."""
+        wager = self._wager
+        self._reset_wager()
+        return wager
 
     @property
     def name(self):
