@@ -40,14 +40,16 @@ class Player(object):
             self._chip_count -= blind_amount
 
     def bet(self, amount):
-        """Set this player's betting amount to be returned when the bet
-        collector collects."""
-        if self._chip_count <= amount:
+        """Add the amount to the current wager."""
+        if self._chip_count < amount:
             exception_message = "{} doesn't have enough chips to " \
                                 "bet {}".format(self.name, amount)
             raise exceptions.NotEnoughChipsException(exception_message)
         else:
+            self._chip_count -= amount
             self._wager.bet(amount)
+            if self._chip_count <= 0:
+                self._wager.set_all_in()
 
     def check_wager(self):
         """Return the amount of the player's current wager."""
