@@ -38,3 +38,6 @@ class Wager(object):
     @property
     def owner_folded(self):
         return self._owner_folded
+
+    def __repr__(self):
+        return '<Wager: {} - {} chips>'.format(self.owner_name, self.total_bet)

@@ -112,23 +112,43 @@ class BetCollector(object):
         for wager in self._collected_wagers:
             if wager.all_in:
                 all_in_wagers.append(wager)
-        for wager in sorted(all_in_wagers, key=lambda x: x.total_bet):
+        self._collected_wagers.sort(key=lambda x: x.total_bet)
+        for all_in_wager in all_in_wagers:
+            if all_in_wager.total_bet <= 0:
+                continue
             latest_pot = self._get_incomplete_pot()
-            for i in range(len(self._collected_wagers)):
-                latest_pot.add_chips(wager.total_bet)
-                latest_pot.add_player(wager.owner_name)
-            self._deduct_from_all_wagers(wager.total_bet)
+            non_empty_wagers = self._get_non_empty_wagers()
+            for non_empty_wager in non_empty_wagers:
+                latest_pot.add_chips(all_in_wager.total_bet)
+                latest_pot.add_player(non_empty_wager.owner_name)
+            self._deduct_from_remaining_wagers(all_in_wager.total_bet)
             latest_pot.complete()
+        self._clear_empty_wagers()
 
-    def _deduct_from_all_wagers(self, amount):
+    def _deduct_from_remaining_wagers(self, amount):
         for wager in self._collected_wagers:
-            wager.subtract(amount)
+            if wager.total_bet >= amount:
+                wager.subtract(amount)
 
     def _handle_regular_bets(self):
         latest_pot = self._get_incomplete_pot()
         for wager in self._collected_wagers:
             latest_pot.add_chips(wager.total_bet)
             latest_pot.add_player(wager.owner_name)
+        self._clear_empty_wagers()
+
+    def _get_non_empty_wagers(self):
+        return [wager for wager in self._collected_wagers
+                if wager.total_bet > 0]
+
+    def _clear_empty_wagers(self):
+        wagers_to_remove = []
+        for wager in self._collected_wagers:
+            if wager.total_bet <= 0:
+                wagers_to_remove.append(wager)
+        for wager in wagers_to_remove:
+            self._collected_wagers.remove(wager)
+
 
 
 

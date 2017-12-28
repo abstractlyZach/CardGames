@@ -176,6 +176,41 @@ def test_one_player_bets_high_and_everyone_folds(collector_four_players):
     assert collector.pots[0].size == 30
     assert collector.pots[1].size == 0
 
+def test_everyone_goes_all_in_for_15_from_beginning(collector_four_players):
+    collector, players = collector_four_players
+    for player in players:
+        player.award_chips(15)
+    collector.get_blind_wagers()
+    for player in players:
+        player.bet(15 - player.check_wager())
+    for i in range(4):
+        collector.ask_next_player_for_wager()
+        collector.collect_all_bets()
+    assert len(collector.pots) == 2
+    assert collector.pots[0].size == 60
+    assert collector.pots[1].size == 0
+
+def test_one_player_forces_others_to_all_in_without_doing_it_himself(
+        collector_four_players):
+    collector, players = collector_four_players
+    for player in players:
+        player.award_chips(15)
+    players[3].award_chips(20)
+    collector.get_blind_wagers()
+    players[3].bet(35)
+    for player in players[:3]:
+        player.bet(15 - player.check_wager())
+    for i in range(4):
+        collector.ask_next_player_for_wager()
+    collector.collect_all_bets()
+    assert len(collector.pots) == 3
+    assert collector.pots[0].size == 60
+    assert collector.pots[1].size == 20
+    assert collector.pots[2].size == 0
+
+
+
+
 
 
 
