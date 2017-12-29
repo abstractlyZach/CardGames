@@ -254,6 +254,19 @@ def test_everyone_all_ins_with_different_amounts(collector_four_players):
     assert collector.pots[2].size == 5 * 2
     assert collector.pots[3].size == 5
 
+def test_one_guy_raises_and_other_guy_tries_to_just_buy_in(
+        collector_four_players):
+    collector, players = collector_four_players
+    for player in players:
+        player.award_chips(15)
+    collector.get_blind_wagers()
+    players[3].bet(15)
+    collector.ask_next_player_for_wager()
+    players[0].bet(10)
+    with pytest.raises(exceptions.BetTooLowException):
+        collector.ask_next_player_for_wager()
+
+
 
 
 

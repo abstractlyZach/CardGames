@@ -11,7 +11,6 @@ class BetCollector(object):
         self._players = players
         self.set_dealer(random.choice(self._players))
         self._current_bettor_index = self.small_blind
-        self._table_bets = 0
         self._reset_pots()
 
     def set_dealer(self, target_player):
@@ -78,9 +77,11 @@ class BetCollector(object):
             return
         if wager < self._bet_to_match and not player.all_in:
             raise exceptions.BetTooLowException
+        self._bet_to_match = max(wager, self._bet_to_match)
         self._current_bettor_index = self._next_player(self._current_bettor_index)
 
     def collect_all_bets(self):
+        """Collect bets from all players."""
         self._collected_wagers = [player.collect_wager()
                                   for player in self._players]
         self._handle_folds()
