@@ -30,6 +30,7 @@ class GameRunner(object):
         self._bet_collector.get_blind_wagers()
         self._collect_round_bets()
         self._dealer.deal_board()
+        self.print_game()
         self._collect_round_bets()
         self._dealer.deal_board()
         self._collect_round_bets()
@@ -44,6 +45,8 @@ class GameRunner(object):
         for player in self._players:
             print('=' * 10)
             print(player.info())
+        print('=' * 20)
+        print(self._board)
 
 
 

@@ -52,3 +52,9 @@ class Board(object):
     def empty(self):
         """Return true if the board is empty."""
         return self.community_cards == []
+
+    def __str__(self):
+        format_string = 'Board:\n'
+        for card in self.community_cards:
+            format_string += '    {}\n'.format(card)
+        return format_string
