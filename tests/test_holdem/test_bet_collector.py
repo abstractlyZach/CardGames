@@ -274,7 +274,23 @@ def test_pay_out_one_pot(everyone_buys_in_for_flop):
     for i in range(1, 4):
         assert players[i].chip_count == 5
 
-
+def test_everyone_all_ins_with_different_amounts_and_pay_out(
+        collector_four_players):
+    collector, players = collector_four_players
+    for index, player in enumerate(players):
+        player.award_chips(5 * (index + 1))
+    collector.get_blind_wagers()
+    for player in players:
+        player.bet(player.chip_count)
+    for i in range(20):
+        collector.ask_next_player_for_wager()
+    collector.collect_all_bets()
+    best_to_worst = [players[0], players[2], players[3], players[1]]
+    collector.pay_out(best_to_worst)
+    assert players[0].chip_count == 20
+    assert players[2].chip_count == 25 # 15 + 10
+    assert players[3].chip_count == 5
+    assert players[1].chip_count == 0
 
 
 
