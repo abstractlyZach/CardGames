@@ -66,6 +66,16 @@ class Player(object):
         """Fold the current hand."""
         self._wager.fold()
 
+    def info(self):
+        """Return the current player's info as a string."""
+        to_return = ''
+        to_return += '{}:\n'
+        to_return += '{:4d} chips\n'
+        to_return += 'Hole cards:\n'
+        for card in self._cards:
+            to_return += '   {}\n'.format(card)
+        return to_return.format(self.name, self.chip_count)
+
     @property
     def name(self):
         return self._name
@@ -86,3 +96,4 @@ class Player(object):
 
     def __repr__(self):
         return '<Player: {}>'.format(self.name)
+

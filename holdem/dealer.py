@@ -5,7 +5,7 @@ class Dealer(object):
         self._board = board
         self._deck = deck
 
-    def deal(self):
+    def deal_board(self):
         if not self._board.flop:
             self._deal_flop()
         elif not self._board.turn:
@@ -31,3 +31,7 @@ class Dealer(object):
         burned_card = self._deck.draw()
         self._board.discard_pile.insert_to_top(burned_card)
 
+    def deal_hole_cards(self, players):
+        for i in range(2):
+            for player in players:
+                player.deal_hole_card(self._deck.draw())

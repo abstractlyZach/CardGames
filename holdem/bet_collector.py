@@ -12,6 +12,7 @@ class BetCollector(object):
         self.set_dealer(random.choice(self._players))
         self._current_bettor_index = self.small_blind
         self._reset_pots()
+        self._round_over = False
 
     def set_dealer(self, target_player):
         """Sets the button and the blinds."""
@@ -46,6 +47,10 @@ class BetCollector(object):
         return self._players[self._small_blind_index]
 
     @property
+    def round_over(self):
+        return self._round_over
+
+    @property
     def pots(self):
         return self._pots
 
@@ -68,16 +73,22 @@ class BetCollector(object):
         self.small_blind.set_blind_wager(math.floor(self._buy_in / 2))
         self._current_bettor_index = self._next_player(self._big_blind_index)
         self._bet_to_match = self._buy_in
+        self._last_player_index_to_raise = self._current_bettor_index
 
     def ask_next_player_for_wager(self):
         """Collect bets for each player still in the game."""
+        if self._current_bettor_index == self._last_player_index_to_raise:
+            self._round_over = True
+            return
         player = self._players[self._current_bettor_index]
         wager = player.check_wager()
         if player._wager.owner_folded:
             return
         if wager < self._bet_to_match and not player.all_in:
             raise exceptions.BetTooLowException
-        self._bet_to_match = max(wager, self._bet_to_match)
+        if wager > self._bet_to_match:
+            self._bet_to_match = wager
+            self._last_player_index_to_raise = self._current_bettor_index
         self._current_bettor_index = self._next_player(self._current_bettor_index)
 
     def collect_all_bets(self):
@@ -89,6 +100,7 @@ class BetCollector(object):
         self._handle_regular_bets()
         self._clear_empty_pots()
         self._collected_wagers = []
+        self._round_over = False
 
     def pay_out(self, player_order):
         for pot in self._pots:
