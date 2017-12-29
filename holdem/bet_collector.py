@@ -103,8 +103,6 @@ class BetCollector(object):
                 raise exceptions.NoValidPlayerInPotException
         self._reset_pots()
 
-
-
     def _handle_folds(self):
         latest_pot = self._get_incomplete_pot()
         wagers_to_remove = []
