@@ -172,9 +172,8 @@ def test_one_player_bets_high_and_everyone_folds(collector_four_players):
     for i in range(4):
         collector.ask_next_player_for_wager()
     collector.collect_all_bets()
-    assert len(collector.pots) == 2
+    assert len(collector.pots) == 1
     assert collector.pots[0].size == 30
-    assert collector.pots[1].size == 0
 
 def test_everyone_goes_all_in_for_15_from_beginning(collector_four_players):
     collector, players = collector_four_players
@@ -186,9 +185,8 @@ def test_everyone_goes_all_in_for_15_from_beginning(collector_four_players):
     for i in range(4):
         collector.ask_next_player_for_wager()
         collector.collect_all_bets()
-    assert len(collector.pots) == 2
+    assert len(collector.pots) == 1
     assert collector.pots[0].size == 60
-    assert collector.pots[1].size == 0
 
 def test_one_player_forces_others_to_all_in_without_doing_it_himself(
         collector_four_players):
@@ -203,10 +201,62 @@ def test_one_player_forces_others_to_all_in_without_doing_it_himself(
     for i in range(4):
         collector.ask_next_player_for_wager()
     collector.collect_all_bets()
-    assert len(collector.pots) == 3
+    assert len(collector.pots) == 2
     assert collector.pots[0].size == 60
     assert collector.pots[1].size == 20
-    assert collector.pots[2].size == 0
+
+def test_one_player_all_ins_and_other_players_call(collector_four_players):
+    collector, players = collector_four_players
+    for player in players[:3]:
+        player.award_chips(20)
+    players[3].award_chips(13)
+    collector.get_blind_wagers()
+    for player in players:
+        player.bet(13 - player.check_wager())
+    for i in range(4):
+        collector.ask_next_player_for_wager()
+    collector.collect_all_bets()
+    assert len(collector.pots) == 1
+    assert collector.pots[0].size == 13 * 4
+
+def test_one_player_all_ins_and_other_players_continue_betting(
+        collector_four_players):
+    collector, players = collector_four_players
+    for player in players[1:]:
+        player.award_chips(20)
+    players[0].award_chips(17)
+    collector.get_blind_wagers()
+    for player in players:
+        player.bet(17 - player.check_wager())
+    for i in range(4):
+        collector.ask_next_player_for_wager()
+    for player in players:
+        if not player.all_in:
+            player.bet(3)
+    collector.collect_all_bets()
+    assert len(collector.pots) == 2
+    assert collector.pots[0].size == 17 * 4
+    assert collector.pots[1].size == 9
+
+def test_everyone_all_ins_with_different_amounts(collector_four_players):
+    collector, players = collector_four_players
+    for index, player in enumerate(players):
+        player.award_chips(5 * (index + 1))
+    collector.get_blind_wagers()
+    for player in players:
+        player.bet(player.chip_count)
+    for i in range(20):
+        collector.ask_next_player_for_wager()
+    collector.collect_all_bets()
+    assert len(collector.pots) == 4
+    assert collector.pots[0].size == 5 * 4
+    assert collector.pots[1].size == 5 * 3
+    assert collector.pots[2].size == 5 * 2
+    assert collector.pots[3].size == 5
+
+
+
+
 
 
 

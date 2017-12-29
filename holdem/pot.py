@@ -39,6 +39,6 @@ class Pot(object):
 
     def __repr__(self):
         complete_string = 'Complete' if self._pot_complete else 'Incomplete'
-        format_string = '<{} Pot; {} chips; players: {}'
+        format_string = '<{} Pot; {} chips; players: {}>'
         return format_string.format(complete_string, self._total,
                                     self._involved_players)

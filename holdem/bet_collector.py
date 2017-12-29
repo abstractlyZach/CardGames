@@ -86,6 +86,7 @@ class BetCollector(object):
         self._handle_folds()
         self._handle_all_ins()
         self._handle_regular_bets()
+        self._clear_empty_pots()
         self._collected_wagers = []
 
     def _handle_folds(self):
@@ -148,6 +149,10 @@ class BetCollector(object):
                 wagers_to_remove.append(wager)
         for wager in wagers_to_remove:
             self._collected_wagers.remove(wager)
+
+    def _clear_empty_pots(self):
+        if self._pots[-1].size <= 0:
+            self._pots.pop()
 
 
 
