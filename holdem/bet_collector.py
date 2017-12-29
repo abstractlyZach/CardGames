@@ -13,6 +13,7 @@ class BetCollector(object):
         self._current_bettor_index = self.small_blind
         self._reset_pots()
         self._round_over = False
+        self._last_player_index_to_raise = None
 
     def set_dealer(self, target_player):
         """Sets the button and the blinds."""
@@ -51,6 +52,10 @@ class BetCollector(object):
         return self._round_over
 
     @property
+    def bet_to_match(self):
+        return self._bet_to_match
+
+    @property
     def pots(self):
         return self._pots
 
@@ -73,11 +78,13 @@ class BetCollector(object):
         self.small_blind.set_blind_wager(math.floor(self._buy_in / 2))
         self._current_bettor_index = self._next_player(self._big_blind_index)
         self._bet_to_match = self._buy_in
-        self._last_player_index_to_raise = self._current_bettor_index
 
     def ask_next_player_for_wager(self):
         """Collect bets for each player still in the game."""
-        if self._current_bettor_index == self._last_player_index_to_raise:
+
+        if self._last_player_index_to_raise is not \
+                None and self._current_bettor_index == \
+                self._last_player_index_to_raise:
             self._round_over = True
             return
         player = self._players[self._current_bettor_index]
@@ -101,6 +108,7 @@ class BetCollector(object):
         self._clear_empty_pots()
         self._collected_wagers = []
         self._round_over = False
+        self._last_player_index_to_raise = None
 
     def pay_out(self, player_order):
         for pot in self._pots:
