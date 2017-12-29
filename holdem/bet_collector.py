@@ -90,6 +90,21 @@ class BetCollector(object):
         self._clear_empty_pots()
         self._collected_wagers = []
 
+    def pay_out(self, player_order):
+        for pot in self._pots:
+            found_player = False
+            for player in player_order:
+                if player in pot:
+                    player.award_chips(pot.size)
+                    pot.clear()
+                    found_player = True
+                    break
+            if not found_player:
+                raise exceptions.NoValidPlayerInPotException
+        self._reset_pots()
+
+
+
     def _handle_folds(self):
         latest_pot = self._get_incomplete_pot()
         wagers_to_remove = []

@@ -266,6 +266,15 @@ def test_one_guy_raises_and_other_guy_tries_to_just_buy_in(
     with pytest.raises(exceptions.BetTooLowException):
         collector.ask_next_player_for_wager()
 
+def test_pay_out_one_pot(everyone_buys_in_for_flop):
+    collector, players = everyone_buys_in_for_flop
+    collector.collect_all_bets()
+    collector.pay_out([players[0], players[1]])
+    assert players[0].chip_count == 45
+    for i in range(1, 4):
+        assert players[i].chip_count == 5
+
+
 
 
 

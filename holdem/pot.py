@@ -1,4 +1,5 @@
 from . import exceptions
+from . import player
 
 
 class Pot(object):
@@ -42,3 +43,8 @@ class Pot(object):
         format_string = '<{} Pot; {} chips; players: {}>'
         return format_string.format(complete_string, self._total,
                                     self._involved_players)
+
+    def __contains__(self, item):
+        if isinstance(item, player.Player):
+            return item.name in self._involved_players
+        return item in self._involved_players

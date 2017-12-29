@@ -27,3 +27,6 @@ class WagerDecreaseException(Exception):
 
 class PotCompleteException(Exception):
     pass
+
+class NoValidPlayerInPotException(Exception):
+    pass
