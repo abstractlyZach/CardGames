@@ -1,8 +1,10 @@
 import math
 import random
 
+from . import ai_player
 from . import exceptions
 from . import pot
+
 
 class BetCollector(object):
     def __init__(self, players):
@@ -81,13 +83,14 @@ class BetCollector(object):
 
     def ask_next_player_for_wager(self):
         """Collect bets for each player still in the game."""
-
         if self._last_player_index_to_raise is not \
                 None and self._current_bettor_index == \
                 self._last_player_index_to_raise:
             self._round_over = True
             return
         player = self._players[self._current_bettor_index]
+        if isinstance(player, ai_player.AIPlayer):
+            player.get_bet()
         wager = player.check_wager()
         if player._wager.owner_folded:
             return

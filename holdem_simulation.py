@@ -1,9 +1,9 @@
+from holdem import ai_player
 from holdem import game_runner
-from holdem import player
 
 runner = game_runner.GameRunner()
-zach = player.Player('Zach')
-josh = player.Player('Josh')
-michelle = player.Player('Michelle')
+zach = ai_player.AlwaysChecksPlayer('Zach')
+josh = ai_player.AlwaysChecksPlayer('Josh')
+michelle = ai_player.AlwaysChecksPlayer('Michelle')
 runner.set_players([zach, michelle, josh])
 runner.start()
